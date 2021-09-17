@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "modmenusettings",
+  "version": "${version}",
+
+  "name": "ModMenuSettings",
+  "description": "Add an easy accessible mod configuration screen",
+  "authors": [
+    "magicus"
+  ],
+  "contact": {
+    "homepage": "https://github.com/magicus/modmenusettings",
+    "issues": "https://github.com/magicus/modmenusettings/issues",
+    "sources": "https://github.com/magicus/modmenusettings"
+  },
+
+  "license": "MIT",
+  "icon": "assets/modmenusettings/icon.png",
+
+  "environment": "client",
+
+  "mixins": [
+    "modmenusettings.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.7.4",
+    "minecraft": "1.17.x"
+  }
+}
