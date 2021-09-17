@@ -1,10 +1,10 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "se.icus.mag.modmenusettings",
+  "package": "se.icus.mag.modmenusettings.mixin",
   "compatibilityLevel": "JAVA_8",
   "client": [
-    "mixin.ModMenuSettingsMixin"
+    "ScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1

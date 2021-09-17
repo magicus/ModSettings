@@ -19,6 +19,12 @@
 
   "environment": "client",
 
+  "entrypoints": {
+    "client": [
+      "se.icus.mag.modmenusettings.ModMenuSettings"
+    ]
+  },
+
   "mixins": [
     "modmenusettings.mixins.json"
   ],

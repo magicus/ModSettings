@@ -1,8 +1,5 @@
 package se.icus.mag.modmenusettings.gui;
 
-import com.terraformersmc.modmenu.ModMenu;
-import com.terraformersmc.modmenu.config.ModMenuConfig;
-import com.terraformersmc.modmenu.util.mod.Mod;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ScreenTexts;
 import net.minecraft.client.gui.widget.ButtonListWidget;
@@ -13,9 +10,13 @@ import net.minecraft.client.option.Option;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import se.icus.mag.modmenusettings.ModMenuSettings;
+import se.icus.mag.modmenusettings.ModRegistry;
 
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class ModsConfigScreen extends Screen {
@@ -23,7 +24,7 @@ public class ModsConfigScreen extends Screen {
 	private ButtonListWidget list;
 
 	public ModsConfigScreen(Screen previous) {
-		super(new TranslatableText("modmenu.config.title"));
+		super(new TranslatableText("Mod Settings"));
 		this.previous = previous;
 	}
 
@@ -33,21 +34,22 @@ public class ModsConfigScreen extends Screen {
 
 		this.addSelectableChild(this.list);
 		this.addDrawableChild(new ButtonWidget(this.width / 2 - 100, this.height - 27, 200, 20,
-				ScreenTexts.DONE, (button) -> this.client.openScreen(this.previous)));
+				ScreenTexts.DONE, (button) -> this.client.setScreen(this.previous)));
 	}
 
 	private Option[] getAllModConfigOptions() {
 		List<Option> options = new LinkedList<>();
-		for (Mod mod : ModMenu.MODS.values().stream().sorted(ModMenuConfig.SORTING.getValue().getComparator()).collect(Collectors.toList())) {
+		Comparator<String> sorter = Comparator.comparing(modId -> modId.toLowerCase(Locale.ROOT));
+		for (String modId : ModRegistry.CONFIGABLE_MODS.keySet().stream().sorted(sorter).collect(Collectors.toList())) {
 			try {
-				Screen configScreen = ModMenu.getConfigScreen(mod.getId(), this);
-				if (configScreen != null && !mod.getId().equals("minecraft")) {
-					options.add(new ModConfigOption(mod, configScreen));
+				Screen configScreen = ModRegistry.getConfigScreen(modId, this);
+				if (configScreen != null && !modId.equals("minecraft")) {
+					options.add(new ModConfigOption(modId, ModRegistry.CONFIGABLE_MODS.get(modId), configScreen));
 				}
 			} catch (NoClassDefFoundError e) {
-				ModMenu.LOGGER.warn("The '" + mod.getId() + "' mod config screen is not available because " + e.getLocalizedMessage() + " is missing.");
+				ModMenuSettings.LOGGER.warn("The '" + modId + "' mod config screen is not available because " + e.getLocalizedMessage() + " is missing.");
 			} catch (Throwable e) {
-				ModMenu.LOGGER.error("Error from mod '" + mod.getId() + "'", e);
+				ModMenuSettings.LOGGER.error("Error from mod '" + modId + "'", e);
 			}
 		}
 		return options.toArray(new Option[0]);
@@ -61,26 +63,26 @@ public class ModsConfigScreen extends Screen {
 	}
 
 	public void onClose() {
-		this.client.openScreen(this.previous);
+		this.client.setScreen(this.previous);
 	}
 
 	class ModConfigOption extends Option {
-		private final Mod mod;
+		private final String modName;
 		private final Screen configScreen;
 
-		public ModConfigOption(Mod mod, Screen configScreen) {
-			super(mod.getId());
-			this.mod = mod;
+		public ModConfigOption(String modId, String modName, Screen configScreen) {
+			super(modId);
+			this.modName = modName;
 			this.configScreen = configScreen;
 		}
 
 		@Override
 		public ClickableWidget createButton(GameOptions options, int x, int y, int width) {
-			return new ButtonWidget(x, y, width, 20, Text.of(this.mod.getName()), this::onPress);
+			return new ButtonWidget(x, y, width, 20, Text.of(this.modName), this::onPress);
 		}
 
 		private void onPress(ButtonWidget buttonWidget) {
-			client.openScreen(this.configScreen);
+			client.setScreen(this.configScreen);
 		}
 	}
 }
