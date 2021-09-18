@@ -24,44 +24,44 @@ public class ModRegistry {
     public static void registerMods() {
         Map<String, ConfigScreenFactory<?>> factories = new HashMap<>();
 
+        /* Current API */
         List<EntrypointContainer<ModMenuApi>> modList = FabricLoader.getInstance().getEntrypointContainers("modmenu", ModMenuApi.class);
-        List<EntrypointContainer<io.github.prospector.modmenu.api.ModMenuApi>> mod2List = FabricLoader.getInstance().getEntrypointContainers("modmenu", io.github.prospector.modmenu.api.ModMenuApi.class);
-
         for (EntrypointContainer<ModMenuApi> entryPoint : modList) {
             ModMetadata metadata = entryPoint.getProvider().getMetadata();
             String modId = metadata.getId();
-            String modName = metadata.getName();
-            LOGGER.log(Level.INFO,"found mod1: " + modId);
             try {
+                String modName = metadata.getName();
+                LOGGER.log(Level.INFO,"found mod1: " + modId);
                 ModMenuApi marker = entryPoint.getEntrypoint();
 
                 LOGGER.log(Level.INFO, "is new mod1: " + modId);
                 CONFIGABLE_MODS.put(modId, modName);
 
-                /* Current API */
-                ModMenuApi api = (ModMenuApi) marker;
-                factories.put(modId, api.getModConfigScreenFactory());
-                dynamicScreenFactories.add(api::getProvidedConfigScreenFactories);
+                factories.put(modId, marker.getModConfigScreenFactory());
+                dynamicScreenFactories.add(marker::getProvidedConfigScreenFactories);
             } catch (EntrypointException e) {
+                // Ignore incompatible mods, they are either broken or implement the old API
                 LOGGER.warn("problem with " + modId + e);
             }
         }
 
+        /* Legacy API */
+        List<EntrypointContainer<io.github.prospector.modmenu.api.ModMenuApi>> mod2List = FabricLoader.getInstance().getEntrypointContainers("modmenu", io.github.prospector.modmenu.api.ModMenuApi.class);
+
         for (EntrypointContainer<io.github.prospector.modmenu.api.ModMenuApi> entryPoint : mod2List) {
             ModMetadata metadata = entryPoint.getProvider().getMetadata();
             String modId = metadata.getId();
-            String modName = metadata.getName();
-            LOGGER.log(Level.INFO,"found mod2: " + modId);
             try {
+                String modName = metadata.getName();
+                LOGGER.log(Level.INFO,"found mod2: " + modId);
                 io.github.prospector.modmenu.api.ModMenuApi marker = entryPoint.getEntrypoint();
                 LOGGER.log(Level.INFO,"is old mod2: " + modId);
                 CONFIGABLE_MODS.put(modId, modName);
 
-                /* Legacy API */
-                io.github.prospector.modmenu.api.ModMenuApi api = (io.github.prospector.modmenu.api.ModMenuApi) entryPoint.getEntrypoint();
-                factories.put(modId, screen -> api.getModConfigScreenFactory().create(screen));
-                api.getProvidedConfigScreenFactories().forEach((id, legacyFactory) -> factories.put(id, legacyFactory::create));
+                factories.put(modId, screen -> marker.getModConfigScreenFactory().create(screen));
+                marker.getProvidedConfigScreenFactories().forEach((id, legacyFactory) -> factories.put(id, legacyFactory::create));
             } catch (EntrypointException e) {
+                // Ignore incompatible mods, they are either broken or implement the new API
                 LOGGER.warn("problem with " + modId + e);
             }
         }
