@@ -11,7 +11,7 @@ version = project.mod_version
 group = project.maven_group
 
 repositories {
-	maven { url "https://maven.terraformersmc.com/releases" }
+	maven { url "https://maven.fabricmc.net/" }
 }
 
 dependencies {
@@ -19,7 +19,8 @@ dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-	modImplementation "com.terraformersmc:modmenu:${project.mod_menu_version}"
+	// We really only need "fabric-screen-api-v1" but I don't get how to write the declaration
+	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 }
 
 processResources {
