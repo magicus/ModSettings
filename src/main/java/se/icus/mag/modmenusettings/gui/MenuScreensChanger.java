@@ -15,70 +15,63 @@ import java.util.List;
 public abstract class MenuScreensChanger {
 
     public static void afterTitleScreenInit(TitleScreen screen) {
+        final int fullButtonWidth = 200;
+        int shiftDown = 0;
         List<ClickableWidget> buttons = Screens.getButtons(screen);
-
-        final int buttonWidth = 204;
-
-        final int spacing = 24;
-        int savedY = 0;
-        int maxY = 0;
-        for (ClickableWidget button : buttons) {
-            if (button.y > maxY) maxY = button.y;
-            if (buttonHasText(button, "modmenu.title")) {
-                button.setWidth(98);
-                savedY = button.y;
-            }
-            // REALMS button: "menu.online"
-        }
-        ClickableWidget myButton = new ModsConfigButtonWidget(screen.width / 2 + 2, savedY, 98, 20, screen);
-        buttons.add(myButton);
-        ClickableWidget myButton2 = new ModsConfigButtonWidget(screen.width / 2 + 2, maxY + 24, 98, 20, screen);
-        buttons.add(myButton2);
-    }
-
-    public static void afterGameMenuScreenInit(GameMenuScreen screen) {
-        final int buttonWidth = 204;
-        final int spacing = 24;
-        int yOffset = 0;
-        boolean REMOVE_FEEDBACK = false;
-        boolean REMOVE_BUGS = false;
 
         for (ClickableWidget button : Screens.getButtons(screen)) {
 
-            if (buttonHasText(button, "menu.sendFeedback")) {
-                button.setWidth(buttonWidth / 2);
+            if (buttonHasText(button, "modmenu.title") && button.getWidth() == fullButtonWidth) {
+                // If we find a wide ModMenu button, shorten it and fit in our button on the same row
+                button.setWidth(98);
+                button.x = screen.width / 2 + 2;
+
+                ClickableWidget msbutton = new ModsConfigButtonWidget(screen.width / 2 - fullButtonWidth / 2, button.y, 98, 20, screen);
+                buttons.add(msbutton);
+                return;
             }
-            if (REMOVE_FEEDBACK) {
+            if (buttonHasText(button, "menu.options")) {
+                // Otherwise put our button as full width, above "Options..."
+                shiftDown = 24;
 
-                if (buttonHasText(button, "menu.sendFeedback")) {
-                    button.visible = false;
-                }
-                if (!REMOVE_BUGS) {
-
-                    if (buttonHasText(button, "menu.reportBugs")) {
-                        button.setWidth(buttonWidth);
-                        button.x = screen.width / 2 - buttonWidth / 2;
-                    }
-                }
+                // offset it 12 pixels up
+                ClickableWidget msbutton = new ModsConfigButtonWidget(screen.width / 2 - fullButtonWidth / 2, button.y - 12, fullButtonWidth, 20, screen);
+                buttons.add(msbutton);
             }
 
-            if (REMOVE_BUGS) {
-
-                if (buttonHasText(button, "menu.reportBugs")) {
-                    button.visible = false;
-                    if (REMOVE_FEEDBACK) {
-                        yOffset += spacing;
-                    }
-                }
-                if (!REMOVE_FEEDBACK) {
-
-                    if (buttonHasText(button, "menu.sendFeedback")) {
-                        button.setWidth(buttonWidth);
-                        button.x = screen.width / 2 - buttonWidth / 2;
-                    }
-                }
+            if (!buttonHasText(button, "Mod Settings...")) {
+                button.y += shiftDown;
             }
-            button.y -= yOffset;
+        }
+    }
+
+    public static void afterGameMenuScreenInit(GameMenuScreen screen) {
+        final int fullButtonWidth = 204;
+        int shiftDown = 0;
+        List<ClickableWidget> buttons = Screens.getButtons(screen);
+
+        for (ClickableWidget button : Screens.getButtons(screen)) {
+
+            if (buttonHasText(button, "modmenu.title") && button.getWidth() == fullButtonWidth) {
+                // If we find a wide ModMenu button, shorten it and fit in our button on the same row
+                button.setWidth(98);
+                button.x = screen.width / 2 + 4;
+
+                ClickableWidget msbutton = new ModsConfigButtonWidget(screen.width / 2 - fullButtonWidth / 2, button.y, 98, 20, screen);
+                buttons.add(msbutton);
+                return;
+            }
+            if (buttonHasText(button, "menu.options")) {
+                // Otherwise put our button as full width, above "Options..."
+                shiftDown = 24;
+
+                ClickableWidget msbutton = new ModsConfigButtonWidget(screen.width / 2 - fullButtonWidth / 2, button.y, fullButtonWidth, 20, screen);
+                buttons.add(msbutton);
+            }
+
+            if (!buttonHasText(button, "Mod Settings...")) {
+                button.y += shiftDown;
+            }
         }
     }
 
