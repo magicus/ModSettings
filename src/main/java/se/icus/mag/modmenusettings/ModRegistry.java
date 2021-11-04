@@ -1,85 +1,72 @@
 package se.icus.mag.modmenusettings;
 
-import com.google.common.collect.ImmutableMap;
-import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
+import com.terraformersmc.modmenu.util.ModMenuApiMarker;
+import io.github.prospector.modmenu.api.ConfigScreenFactory;
 import net.fabricmc.loader.api.EntrypointException;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.entrypoint.EntrypointContainer;
 import net.fabricmc.loader.api.metadata.ModMetadata;
 import net.minecraft.client.gui.screen.Screen;
 import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.util.*;
-import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class ModRegistry {
-    private static List<Supplier<Map<String, ConfigScreenFactory<?>>>> dynamicScreenFactories = new ArrayList<>();
-    private static ImmutableMap<String, ConfigScreenFactory<?>> configScreenFactories = ImmutableMap.of();
-    public static final Logger LOGGER = LogManager.getLogger("Mod Menu");
-    public static final Map<String, String> CONFIGABLE_MODS = new HashMap<>();
+    private static final Map<String, String> CONFIGABLE_MODS_NAMES = new HashMap<>();
+    private static final Map<String, ConfigScreenFactory<?>> factories = new HashMap<>();
+    private static final Map<String, ConfigScreenFactory<?>> overridingFactories = new HashMap<>();
 
     public static void registerMods() {
-        Map<String, ConfigScreenFactory<?>> factories = new HashMap<>();
+        List<EntrypointContainer<ModMenuApiMarker>> modList = FabricLoader.getInstance().getEntrypointContainers("modmenu", ModMenuApiMarker.class);
 
-        /* Current API */
-        List<EntrypointContainer<ModMenuApi>> modList = FabricLoader.getInstance().getEntrypointContainers("modmenu", ModMenuApi.class);
-        for (EntrypointContainer<ModMenuApi> entryPoint : modList) {
+        for (EntrypointContainer<ModMenuApiMarker> entryPoint : modList) {
             ModMetadata metadata = entryPoint.getProvider().getMetadata();
             String modId = metadata.getId();
+            ModMenuSettings.LOGGER.log(Level.INFO,"found mod1: " + modId);
+
             try {
-                String modName = metadata.getName();
-                LOGGER.log(Level.INFO,"found mod1: " + modId);
-                ModMenuApi marker = entryPoint.getEntrypoint();
+                ModMenuApiMarker marker = entryPoint.getEntrypoint();
+                if (marker instanceof ModMenuApi) {
+                    ModMenuApi marker2 = (ModMenuApi) marker;
 
-                LOGGER.log(Level.INFO, "is new mod1: " + modId);
-                CONFIGABLE_MODS.put(modId, modName);
+                    factories.put(modId, marker2.getModConfigScreenFactory());
+                    overridingFactories.putAll(marker2.getProvidedConfigScreenFactories());
+                } else  if (marker instanceof io.github.prospector.modmenu.api.ModMenuApi) {
+                    io.github.prospector.modmenu.api.ModMenuApi marker2 = (io.github.prospector.modmenu.api.ModMenuApi) marker;
 
-                factories.put(modId, marker.getModConfigScreenFactory());
-                dynamicScreenFactories.add(marker::getProvidedConfigScreenFactories);
+                    factories.put(modId, marker2.getModConfigScreenFactory());
+                    overridingFactories.putAll(marker2.getProvidedConfigScreenFactories());
+                } else {
+                    ModMenuSettings.LOGGER.warn("class problem with " + modId);
+                    continue;
+                }
+                CONFIGABLE_MODS_NAMES.put(modId, metadata.getName());
             } catch (EntrypointException e) {
                 // Ignore incompatible mods, they are either broken or implement the old API
-                LOGGER.warn("problem with " + modId + e);
+                ModMenuSettings.LOGGER.warn("problem with " + modId + e);
             }
         }
+    }
 
-        /* Legacy API */
-        List<EntrypointContainer<io.github.prospector.modmenu.api.ModMenuApi>> mod2List = FabricLoader.getInstance().getEntrypointContainers("modmenu", io.github.prospector.modmenu.api.ModMenuApi.class);
+    public static List<String> getAllModIds() {
+        Comparator<String> sorter = Comparator.comparing(modId -> modId.toLowerCase(Locale.ROOT));
 
-        for (EntrypointContainer<io.github.prospector.modmenu.api.ModMenuApi> entryPoint : mod2List) {
-            ModMetadata metadata = entryPoint.getProvider().getMetadata();
-            String modId = metadata.getId();
-            try {
-                String modName = metadata.getName();
-                LOGGER.log(Level.INFO,"found mod2: " + modId);
-                io.github.prospector.modmenu.api.ModMenuApi marker = entryPoint.getEntrypoint();
-                LOGGER.log(Level.INFO,"is old mod2: " + modId);
-                CONFIGABLE_MODS.put(modId, modName);
+        return CONFIGABLE_MODS_NAMES.keySet().stream().sorted(sorter)
+                .filter(modId -> !modId.equals("minecraft")).collect(Collectors.toList());
+    }
 
-                factories.put(modId, screen -> marker.getModConfigScreenFactory().create(screen));
-                marker.getProvidedConfigScreenFactories().forEach((id, legacyFactory) -> factories.put(id, legacyFactory::create));
-            } catch (EntrypointException e) {
-                // Ignore incompatible mods, they are either broken or implement the new API
-                LOGGER.warn("problem with " + modId + e);
-            }
-        }
-
-        configScreenFactories = ImmutableMap.copyOf(factories);
+    public static String getModName(String modId) {
+        return CONFIGABLE_MODS_NAMES.get(modId);
     }
 
     public static Screen getConfigScreen(String modid, Screen menuScreen) {
-        ConfigScreenFactory<?> factory = configScreenFactories.get(modid);
+        ConfigScreenFactory<?> factory = factories.getOrDefault(modid, overridingFactories.get(modid));
         if (factory != null) {
             return factory.create(menuScreen);
         }
-        for (Supplier<Map<String, ConfigScreenFactory<?>>> dynamicFactoriesSupplier : dynamicScreenFactories) {
-            factory = dynamicFactoriesSupplier.get().get(modid);
-            if (factory != null) {
-                return factory.create(menuScreen);
-            }
-        }
+
         return null;
     }
 }

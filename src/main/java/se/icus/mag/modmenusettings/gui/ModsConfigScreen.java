@@ -13,11 +13,8 @@ import net.minecraft.text.TranslatableText;
 import se.icus.mag.modmenusettings.ModMenuSettings;
 import se.icus.mag.modmenusettings.ModRegistry;
 
-import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
-import java.util.stream.Collectors;
 
 public class ModsConfigScreen extends Screen {
 	private final Screen previous;
@@ -39,17 +36,14 @@ public class ModsConfigScreen extends Screen {
 
 	private Option[] getAllModConfigOptions() {
 		List<Option> options = new LinkedList<>();
-		Comparator<String> sorter = Comparator.comparing(modId -> modId.toLowerCase(Locale.ROOT));
-		for (String modId : ModRegistry.CONFIGABLE_MODS.keySet().stream().sorted(sorter).collect(Collectors.toList())) {
+		for (String modId : ModRegistry.getAllModIds()) {
 			try {
 				Screen configScreen = ModRegistry.getConfigScreen(modId, this);
-				if (configScreen != null && !modId.equals("minecraft")) {
-					options.add(new ModConfigOption(modId, ModRegistry.CONFIGABLE_MODS.get(modId), configScreen));
+				if (configScreen != null) {
+					options.add(new ModConfigOption(modId, ModRegistry.getModName(modId), configScreen));
 				}
-			} catch (NoClassDefFoundError e) {
-				ModMenuSettings.LOGGER.warn("The '" + modId + "' mod config screen is not available because " + e.getLocalizedMessage() + " is missing.");
 			} catch (Throwable e) {
-				ModMenuSettings.LOGGER.error("Error from mod '" + modId + "'", e);
+				ModMenuSettings.LOGGER.error("Error creating Settings screen from mod '" + modId + "'", e);
 			}
 		}
 		return options.toArray(new Option[0]);
