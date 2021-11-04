@@ -43,7 +43,7 @@ public class ModsConfigScreen extends Screen {
 					options.add(new ModConfigOption(modId, ModRegistry.getModName(modId), configScreen));
 				}
 			} catch (Throwable e) {
-				ModMenuSettings.LOGGER.error("Error creating Settings screen from mod '" + modId + "'", e);
+				ModMenuSettings.LOGGER.error("Error creating Settings screen from mod " + modId, e);
 			}
 		}
 		return options.toArray(new Option[0]);

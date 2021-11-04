@@ -24,28 +24,23 @@ public class ModRegistry {
         for (EntrypointContainer<ModMenuApiMarker> entryPoint : modList) {
             ModMetadata metadata = entryPoint.getProvider().getMetadata();
             String modId = metadata.getId();
-            ModMenuSettings.LOGGER.log(Level.INFO,"found mod1: " + modId);
+            ModMenuSettings.LOGGER.log(Level.INFO,"Found configurable mod " + modId);
 
             try {
                 ModMenuApiMarker marker = entryPoint.getEntrypoint();
-                if (marker instanceof ModMenuApi) {
-                    ModMenuApi marker2 = (ModMenuApi) marker;
-
-                    factories.put(modId, marker2.getModConfigScreenFactory());
-                    overridingFactories.putAll(marker2.getProvidedConfigScreenFactories());
-                } else  if (marker instanceof io.github.prospector.modmenu.api.ModMenuApi) {
-                    io.github.prospector.modmenu.api.ModMenuApi marker2 = (io.github.prospector.modmenu.api.ModMenuApi) marker;
-
-                    factories.put(modId, marker2.getModConfigScreenFactory());
-                    overridingFactories.putAll(marker2.getProvidedConfigScreenFactories());
+                if (marker instanceof ModMenuApi modApi) {
+                    factories.put(modId, modApi.getModConfigScreenFactory());
+                    overridingFactories.putAll(modApi.getProvidedConfigScreenFactories());
+                } else  if (marker instanceof io.github.prospector.modmenu.api.ModMenuApi modApi) {
+                    factories.put(modId, modApi.getModConfigScreenFactory());
+                    overridingFactories.putAll(modApi.getProvidedConfigScreenFactories());
                 } else {
-                    ModMenuSettings.LOGGER.warn("class problem with " + modId);
+                    ModMenuSettings.LOGGER.warn("Unknown API version for mod " + modId);
                     continue;
                 }
                 CONFIGABLE_MODS_NAMES.put(modId, metadata.getName());
             } catch (EntrypointException e) {
-                // Ignore incompatible mods, they are either broken or implement the old API
-                ModMenuSettings.LOGGER.warn("problem with " + modId + e);
+                ModMenuSettings.LOGGER.warn("API problem with mod " + modId + e);
             }
         }
     }
