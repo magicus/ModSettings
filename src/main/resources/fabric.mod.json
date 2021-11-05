@@ -4,7 +4,7 @@
   "version": "${version}",
 
   "name": "ModSettings",
-  "description": "Add an easy accessible mod configuration screen",
+  "description": "Provides an easy to access configuration screen for all installed mods",
   "authors": [
     "magicus"
   ],
