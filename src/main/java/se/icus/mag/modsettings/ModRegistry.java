@@ -42,7 +42,7 @@ public class ModRegistry {
                 if (marker instanceof ModMenuApi modApi) {
                     configScreenFactories.put(modId, modApi.getModConfigScreenFactory());
                     overridingConfigScreenFactories.putAll(modApi.getProvidedConfigScreenFactories());
-                } else  if (marker instanceof io.github.prospector.modmenu.api.ModMenuApi modApi) {
+                } else if (marker instanceof io.github.prospector.modmenu.api.ModMenuApi modApi) {
                     configScreenFactories.put(modId, modApi.getModConfigScreenFactory());
                     overridingConfigScreenFactories.putAll(modApi.getProvidedConfigScreenFactories());
                 } else {
@@ -51,7 +51,7 @@ public class ModRegistry {
                 }
                 modNames.put(modId, metadata.getName());
             } catch (EntrypointException e) {
-                Main.LOGGER.warn("Mod Menu API problem with mod " + modId + ": " + e);
+                Main.LOGGER.warn("Mod Menu API problem with mod " + modId, e);
             }
         }
     }

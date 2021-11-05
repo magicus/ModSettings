@@ -25,7 +25,7 @@ public class ModSettingsScreen extends Screen {
 	private ButtonListWidget list;
 
 	public ModSettingsScreen(Screen previous) {
-		super(new TranslatableText("Mod Settings"));
+		super(new TranslatableText("modsettings.screen.title"));
 		this.previous = previous;
 	}
 

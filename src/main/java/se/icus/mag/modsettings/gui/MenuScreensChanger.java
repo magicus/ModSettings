@@ -43,7 +43,7 @@ public abstract class MenuScreensChanger {
                 buttons.add(msbutton);
             }
 
-            if (!buttonHasText(button, "Mod Settings...")) {
+            if (!buttonHasText(button, "modsettings.button.title")) {
                 button.y += shiftDown;
             }
         }
@@ -72,7 +72,7 @@ public abstract class MenuScreensChanger {
                 buttons.add(msbutton);
             }
 
-            if (!buttonHasText(button, "Mod Settings...")) {
+            if (!buttonHasText(button, "modsettings.button.title")) {
                 button.y += shiftDown;
             }
         }
@@ -85,7 +85,7 @@ public abstract class MenuScreensChanger {
 
     public static class ModSettingsButton extends ButtonWidget {
         public ModSettingsButton(int x, int y, int width, int height, Screen screen) {
-            super(x, y, width, height, new TranslatableText("Mod Settings..."),
+            super(x, y, width, height, new TranslatableText("modsettings.button.title"),
                     button -> MinecraftClient.getInstance().setScreen(new ModSettingsScreen(screen)));
         }
     }
