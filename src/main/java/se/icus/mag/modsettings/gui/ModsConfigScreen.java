@@ -1,4 +1,4 @@
-package se.icus.mag.modmenusettings.gui;
+package se.icus.mag.modsettings.gui;
 
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ScreenTexts;
@@ -10,8 +10,8 @@ import net.minecraft.client.option.Option;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
-import se.icus.mag.modmenusettings.ModMenuSettings;
-import se.icus.mag.modmenusettings.ModRegistry;
+import se.icus.mag.modsettings.ModSettings;
+import se.icus.mag.modsettings.ModRegistry;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -43,7 +43,7 @@ public class ModsConfigScreen extends Screen {
 					options.add(new ModConfigOption(modId, ModRegistry.getModName(modId), configScreen));
 				}
 			} catch (Throwable e) {
-				ModMenuSettings.LOGGER.error("Error creating Settings screen from mod " + modId, e);
+				ModSettings.LOGGER.error("Error creating Settings screen from mod " + modId, e);
 			}
 		}
 		return options.toArray(new Option[0]);

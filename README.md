@@ -1,6 +1,6 @@
-# ModMenuSettings
+# Mod Settings for Fabric
 
-Add an easy accessible mod configuration screen.
+Makes it easy to access the configuration for all installed mods!
 
 This mod requires Minecraft 1.17.1 and the Fabric loader.
 
@@ -12,7 +12,7 @@ This is what it looks like when you are using the mod.
 
 ## Download
 
-You can download the latest version here: [modmenusettings-1.0.0.jar](https://github.com/magicus/modmenusettings/releases/download/v1.0.0/modmenusettings-1.0.0.jar)
+You can download the latest version here: [modsettings-1.0.0.jar](https://github.com/magicus/modsettings/releases/download/v1.0.0/modsettings-1.0.0.jar)
 
 ## Installation
 

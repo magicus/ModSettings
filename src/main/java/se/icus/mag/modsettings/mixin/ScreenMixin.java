@@ -1,4 +1,4 @@
-package se.icus.mag.modmenusettings.mixin;
+package se.icus.mag.modsettings.mixin;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.AbstractParentElement;
@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import se.icus.mag.modmenusettings.gui.MenuScreensChanger;
+import se.icus.mag.modsettings.gui.MenuScreensChanger;
 
 @Mixin(value = Screen.class, priority = 1100)
 public abstract class ScreenMixin extends AbstractParentElement implements Drawable {

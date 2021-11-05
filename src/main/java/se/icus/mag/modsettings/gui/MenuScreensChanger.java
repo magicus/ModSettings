@@ -1,4 +1,4 @@
-package se.icus.mag.modmenusettings.gui;
+package se.icus.mag.modsettings.gui;
 
 import net.fabricmc.fabric.api.client.screen.v1.Screens;
 import net.minecraft.client.MinecraftClient;

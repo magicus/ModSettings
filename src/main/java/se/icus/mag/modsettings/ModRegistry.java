@@ -1,4 +1,4 @@
-package se.icus.mag.modmenusettings;
+package se.icus.mag.modsettings;
 
 import com.terraformersmc.modmenu.api.ModMenuApi;
 import com.terraformersmc.modmenu.util.ModMenuApiMarker;
@@ -24,7 +24,7 @@ public class ModRegistry {
         for (EntrypointContainer<ModMenuApiMarker> entryPoint : modList) {
             ModMetadata metadata = entryPoint.getProvider().getMetadata();
             String modId = metadata.getId();
-            ModMenuSettings.LOGGER.log(Level.INFO,"Found configurable mod " + modId);
+            ModSettings.LOGGER.log(Level.INFO,"Found configurable mod " + modId);
 
             try {
                 ModMenuApiMarker marker = entryPoint.getEntrypoint();
@@ -35,12 +35,12 @@ public class ModRegistry {
                     factories.put(modId, modApi.getModConfigScreenFactory());
                     overridingFactories.putAll(modApi.getProvidedConfigScreenFactories());
                 } else {
-                    ModMenuSettings.LOGGER.warn("Unknown API version for mod " + modId);
+                    ModSettings.LOGGER.warn("Unknown API version for mod " + modId);
                     continue;
                 }
                 CONFIGABLE_MODS_NAMES.put(modId, metadata.getName());
             } catch (EntrypointException e) {
-                ModMenuSettings.LOGGER.warn("API problem with mod " + modId + e);
+                ModSettings.LOGGER.warn("API problem with mod " + modId + e);
             }
         }
     }

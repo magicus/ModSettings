@@ -1,32 +1,32 @@
 {
   "schemaVersion": 1,
-  "id": "modmenusettings",
+  "id": "modsettings",
   "version": "${version}",
 
-  "name": "ModMenuSettings",
+  "name": "ModSettings",
   "description": "Add an easy accessible mod configuration screen",
   "authors": [
     "magicus"
   ],
   "contact": {
-    "homepage": "https://github.com/magicus/modmenusettings",
-    "issues": "https://github.com/magicus/modmenusettings/issues",
-    "sources": "https://github.com/magicus/modmenusettings"
+    "homepage": "https://github.com/magicus/modsettings",
+    "issues": "https://github.com/magicus/modsettings/issues",
+    "sources": "https://github.com/magicus/modsettings"
   },
 
   "license": "MIT",
-  "icon": "assets/modmenusettings/icon.png",
+  "icon": "assets/modsettings/icon.png",
 
   "environment": "client",
 
   "entrypoints": {
     "client": [
-      "se.icus.mag.modmenusettings.ModMenuSettings"
+      "se.icus.mag.modsettings.ModSettings"
     ]
   },
 
   "mixins": [
-    "modmenusettings.mixins.json"
+    "modsettings.mixins.json"
   ],
 
   "depends": {
