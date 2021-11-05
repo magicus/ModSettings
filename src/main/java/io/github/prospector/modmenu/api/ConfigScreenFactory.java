@@ -7,7 +7,6 @@ import net.minecraft.client.gui.screen.Screen;
  *
  * Will be removed in 1.18 snapshots
  */
-@Deprecated
 @FunctionalInterface
 public interface ConfigScreenFactory<S extends Screen> {
 	S create(Screen parent);

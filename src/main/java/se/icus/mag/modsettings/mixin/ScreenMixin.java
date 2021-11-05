@@ -20,9 +20,9 @@ public abstract class ScreenMixin extends AbstractParentElement implements Drawa
         Screen screen = (Screen) (Object) this;
 
         if (screen instanceof TitleScreen titleScreen) {
-            MenuScreensChanger.afterTitleScreenInit(titleScreen);
+            MenuScreensChanger.postTitleScreenInit(titleScreen);
         } else if (screen instanceof GameMenuScreen gameMenuScreen) {
-            MenuScreensChanger.afterGameMenuScreenInit(gameMenuScreen);
+            MenuScreensChanger.postGameMenuScreenInit(gameMenuScreen);
         }
     }
 }

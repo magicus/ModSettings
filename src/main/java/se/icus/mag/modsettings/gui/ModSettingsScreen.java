@@ -10,61 +10,70 @@ import net.minecraft.client.option.Option;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
-import se.icus.mag.modsettings.ModSettings;
+import se.icus.mag.modsettings.Main;
 import se.icus.mag.modsettings.ModRegistry;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class ModsConfigScreen extends Screen {
+public class ModSettingsScreen extends Screen {
+	private static final int FULL_BUTTON_WIDTH = 200;
+	private static final int BUTTON_HEIGHT = 20;
+	private static final int TITLE_COLOR = 0xffffff;
+
 	private final Screen previous;
 	private ButtonListWidget list;
 
-	public ModsConfigScreen(Screen previous) {
+	public ModSettingsScreen(Screen previous) {
 		super(new TranslatableText("Mod Settings"));
 		this.previous = previous;
 	}
 
+	@Override
 	protected void init() {
+		// Put list between 32 pixels from top and bottom
 		this.list = new ButtonListWidget(this.client, this.width, this.height, 32, this.height - 32, 25);
 		this.list.addAll(getAllModConfigOptions());
 
 		this.addSelectableChild(this.list);
-		this.addDrawableChild(new ButtonWidget(this.width / 2 - 100, this.height - 27, 200, 20,
-				ScreenTexts.DONE, (button) -> this.client.setScreen(this.previous)));
+		this.addDrawableChild(new ButtonWidget(this.width / 2 - FULL_BUTTON_WIDTH / 2, this.height - 27,
+				FULL_BUTTON_WIDTH, BUTTON_HEIGHT, ScreenTexts.DONE,
+				button -> this.client.setScreen(this.previous)));
 	}
 
 	private Option[] getAllModConfigOptions() {
 		List<Option> options = new LinkedList<>();
-		for (String modId : ModRegistry.getAllModIds()) {
+		for (String modId : ModRegistry.getInstance().getAllModIds()) {
 			try {
-				Screen configScreen = ModRegistry.getConfigScreen(modId, this);
+				Screen configScreen = ModRegistry.getInstance().getConfigScreen(modId, this);
 				if (configScreen != null) {
-					options.add(new ModConfigOption(modId, ModRegistry.getModName(modId), configScreen));
+					options.add(new ModSettingsOption(modId, ModRegistry.getInstance().getModName(modId), configScreen));
 				}
 			} catch (Throwable e) {
-				ModSettings.LOGGER.error("Error creating Settings screen from mod " + modId, e);
+				Main.LOGGER.error("Error creating Settings screen from mod " + modId, e);
 			}
 		}
 		return options.toArray(new Option[0]);
 	}
 
+	@Override
 	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
 		this.renderBackground(matrices);
 		this.list.render(matrices, mouseX, mouseY, delta);
-		drawCenteredText(matrices, this.textRenderer, this.title, this.width / 2, 5, 0xffffff);
+		drawCenteredText(matrices, this.textRenderer, this.title, this.width / 2, 5, TITLE_COLOR);
 		super.render(matrices, mouseX, mouseY, delta);
 	}
 
+	@Override
 	public void onClose() {
 		this.client.setScreen(this.previous);
 	}
 
-	class ModConfigOption extends Option {
+	public class ModSettingsOption extends Option {
 		private final String modName;
 		private final Screen configScreen;
 
-		public ModConfigOption(String modId, String modName, Screen configScreen) {
+		public ModSettingsOption(String modId, String modName, Screen configScreen) {
 			super(modId);
 			this.modName = modName;
 			this.configScreen = configScreen;
@@ -72,11 +81,8 @@ public class ModsConfigScreen extends Screen {
 
 		@Override
 		public ClickableWidget createButton(GameOptions options, int x, int y, int width) {
-			return new ButtonWidget(x, y, width, 20, Text.of(this.modName), this::onPress);
-		}
-
-		private void onPress(ButtonWidget buttonWidget) {
-			client.setScreen(this.configScreen);
+			return new ButtonWidget(x, y, width, BUTTON_HEIGHT, Text.of(this.modName),
+					button -> client.setScreen(this.configScreen));
 		}
 	}
 }

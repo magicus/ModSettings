@@ -10,7 +10,6 @@ import java.util.Map;
  *
  * Will be removed in 1.18 snapshots
  */
-@Deprecated
 public interface ModMenuApi extends ModMenuApiMarker {
 	/**
 	 * THIS ENTIRE API IS DEPRECATED. MOVE TO {@link com.terraformersmc.modmenu.api.ModMenuApi}

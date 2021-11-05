@@ -14,52 +14,66 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class ModRegistry {
-    private static final Map<String, String> CONFIGABLE_MODS_NAMES = new HashMap<>();
-    private static final Map<String, ConfigScreenFactory<?>> factories = new HashMap<>();
-    private static final Map<String, ConfigScreenFactory<?>> overridingFactories = new HashMap<>();
+    private static final ModRegistry INSTANCE = new ModRegistry();
 
-    public static void registerMods() {
-        List<EntrypointContainer<ModMenuApiMarker>> modList = FabricLoader.getInstance().getEntrypointContainers("modmenu", ModMenuApiMarker.class);
+    private final Map<String, String> modNames = new HashMap<>();
+    private final Map<String, ConfigScreenFactory<?>> configScreenFactories = new HashMap<>();
+    private final Map<String, ConfigScreenFactory<?>> overridingConfigScreenFactories = new HashMap<>();
+
+    private ModRegistry() {
+    }
+
+    public static ModRegistry getInstance() {
+        return INSTANCE;
+    }
+
+    /* This needs to be done att the right time of loading the mod, so cannot be done in the constructor. */
+    public void registerMods() {
+        List<EntrypointContainer<ModMenuApiMarker>> modList =
+                FabricLoader.getInstance().getEntrypointContainers("modmenu", ModMenuApiMarker.class);
 
         for (EntrypointContainer<ModMenuApiMarker> entryPoint : modList) {
             ModMetadata metadata = entryPoint.getProvider().getMetadata();
             String modId = metadata.getId();
-            ModSettings.LOGGER.log(Level.INFO,"Found configurable mod " + modId);
+            Main.LOGGER.log(Level.INFO,"Found configurable mod " + modId);
 
             try {
                 ModMenuApiMarker marker = entryPoint.getEntrypoint();
                 if (marker instanceof ModMenuApi modApi) {
-                    factories.put(modId, modApi.getModConfigScreenFactory());
-                    overridingFactories.putAll(modApi.getProvidedConfigScreenFactories());
+                    configScreenFactories.put(modId, modApi.getModConfigScreenFactory());
+                    overridingConfigScreenFactories.putAll(modApi.getProvidedConfigScreenFactories());
                 } else  if (marker instanceof io.github.prospector.modmenu.api.ModMenuApi modApi) {
-                    factories.put(modId, modApi.getModConfigScreenFactory());
-                    overridingFactories.putAll(modApi.getProvidedConfigScreenFactories());
+                    configScreenFactories.put(modId, modApi.getModConfigScreenFactory());
+                    overridingConfigScreenFactories.putAll(modApi.getProvidedConfigScreenFactories());
                 } else {
-                    ModSettings.LOGGER.warn("Unknown API version for mod " + modId);
+                    Main.LOGGER.warn("Unknown Mod Menu API version for mod " + modId);
                     continue;
                 }
-                CONFIGABLE_MODS_NAMES.put(modId, metadata.getName());
+                modNames.put(modId, metadata.getName());
             } catch (EntrypointException e) {
-                ModSettings.LOGGER.warn("API problem with mod " + modId + e);
+                Main.LOGGER.warn("Mod Menu API problem with mod " + modId + ": " + e);
             }
         }
     }
 
-    public static List<String> getAllModIds() {
+    public List<String> getAllModIds() {
+        // Return mods sorted. This sorts on modID and not name, but is good enough.
         Comparator<String> sorter = Comparator.comparing(modId -> modId.toLowerCase(Locale.ROOT));
 
-        return CONFIGABLE_MODS_NAMES.keySet().stream().sorted(sorter)
+        // Fabric treats Vanilla ("minecraft") as a mod and returns the normal Options screen.
+        // We don't want that so filter it out.
+        return modNames.keySet().stream().sorted(sorter)
                 .filter(modId -> !modId.equals("minecraft")).collect(Collectors.toList());
     }
 
-    public static String getModName(String modId) {
-        return CONFIGABLE_MODS_NAMES.get(modId);
+    public String getModName(String modId) {
+        return modNames.get(modId);
     }
 
-    public static Screen getConfigScreen(String modid, Screen menuScreen) {
-        ConfigScreenFactory<?> factory = factories.getOrDefault(modid, overridingFactories.get(modid));
+    public Screen getConfigScreen(String modid, Screen parentScreen) {
+        ConfigScreenFactory<?> factory = configScreenFactories.getOrDefault(modid, overridingConfigScreenFactories.get(modid));
         if (factory != null) {
-            return factory.create(menuScreen);
+            return factory.create(parentScreen);
         }
 
         return null;

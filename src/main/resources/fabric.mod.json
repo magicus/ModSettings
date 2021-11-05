@@ -21,7 +21,7 @@
 
   "entrypoints": {
     "client": [
-      "se.icus.mag.modsettings.ModSettings"
+      "se.icus.mag.modsettings.Main"
     ]
   },
 
