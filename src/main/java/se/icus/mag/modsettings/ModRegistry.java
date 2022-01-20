@@ -1,8 +1,7 @@
 package se.icus.mag.modsettings;
 
 import com.terraformersmc.modmenu.api.ModMenuApi;
-import com.terraformersmc.modmenu.util.ModMenuApiMarker;
-import io.github.prospector.modmenu.api.ConfigScreenFactory;
+import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import net.fabricmc.loader.api.EntrypointException;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.entrypoint.EntrypointContainer;
@@ -29,26 +28,18 @@ public class ModRegistry {
 
     /* This needs to be done att the right time of loading the mod, so cannot be done in the constructor. */
     public void registerMods() {
-        List<EntrypointContainer<ModMenuApiMarker>> modList =
-                FabricLoader.getInstance().getEntrypointContainers("modmenu", ModMenuApiMarker.class);
+        List<EntrypointContainer<ModMenuApi>> modList =
+                FabricLoader.getInstance().getEntrypointContainers("modmenu", ModMenuApi.class);
 
-        for (EntrypointContainer<ModMenuApiMarker> entryPoint : modList) {
+        for (EntrypointContainer<ModMenuApi> entryPoint : modList) {
             ModMetadata metadata = entryPoint.getProvider().getMetadata();
             String modId = metadata.getId();
             Main.LOGGER.log(Level.INFO,"Found configurable mod " + modId);
 
             try {
-                ModMenuApiMarker marker = entryPoint.getEntrypoint();
-                if (marker instanceof ModMenuApi modApi) {
-                    configScreenFactories.put(modId, modApi.getModConfigScreenFactory());
-                    overridingConfigScreenFactories.putAll(modApi.getProvidedConfigScreenFactories());
-                } else if (marker instanceof io.github.prospector.modmenu.api.ModMenuApi modApi) {
-                    configScreenFactories.put(modId, modApi.getModConfigScreenFactory());
-                    overridingConfigScreenFactories.putAll(modApi.getProvidedConfigScreenFactories());
-                } else {
-                    Main.LOGGER.warn("Unknown Mod Menu API version for mod " + modId);
-                    continue;
-                }
+                ModMenuApi modApi = entryPoint.getEntrypoint();
+                configScreenFactories.put(modId, modApi.getModConfigScreenFactory());
+                overridingConfigScreenFactories.putAll(modApi.getProvidedConfigScreenFactories());
                 modNames.put(modId, metadata.getName());
             } catch (EntrypointException e) {
                 Main.LOGGER.warn("Mod Menu API problem with mod " + modId, e);
