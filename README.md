@@ -36,7 +36,7 @@ be configured from within Mod Menu will not show up on the Mod Settings screen.
 ## Download
 
 You can download the latest version here:
-[modsettings-1.0.0+1.18.1.jar](https://github.com/magicus/ModSettings/releases/download/1.0.0/modsettings-1.0.0+1.18.1.jar)
+[modsettings-1.0.0+1.18.1.jar](https://github.com/magicus/ModSettings/releases/download/v1.0.0+1.18.1/modsettings-1.0.0+1.18.1.jar)
 
 ## Installation
 
