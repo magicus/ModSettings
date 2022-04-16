@@ -1,5 +1,6 @@
 package se.icus.mag.modsettings.gui;
 
+import com.terraformersmc.modmenu.gui.ModsScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ScreenTexts;
 import net.minecraft.client.gui.widget.ButtonListWidget;
@@ -16,7 +17,7 @@ import se.icus.mag.modsettings.ModRegistry;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ModSettingsScreen extends Screen {
+public class ModSettingsScreen extends ModsScreen {
 	private static final int FULL_BUTTON_WIDTH = 200;
 	private static final int BUTTON_HEIGHT = 20;
 	private static final int TITLE_COLOR = 0xffffff;
