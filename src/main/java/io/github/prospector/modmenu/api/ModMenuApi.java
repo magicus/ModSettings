@@ -1,12 +1,20 @@
-package com.terraformersmc.modmenu.api;
+package io.github.prospector.modmenu.api;
 
 import com.google.common.collect.ImmutableMap;
 import com.terraformersmc.modmenu.util.ModMenuApiMarker;
 
 import java.util.Map;
 
+/**
+ * Deprecated API, switch to {@link com.terraformersmc.modmenu.api.ModMenuApi} instead
+ *
+ * Will be removed in 1.18 snapshots
+ */
 public interface ModMenuApi extends ModMenuApiMarker {
 	/**
+	 * THIS ENTIRE API IS DEPRECATED. MOVE TO {@link com.terraformersmc.modmenu.api.ModMenuApi}
+	 * This API will be removed in 1.18 snapshots
+	 *
 	 * Used to construct a new config screen instance when your mod's
 	 * configuration button is selected on the mod menu screen. The
 	 * screen instance parameter is the active mod menu screen.
@@ -18,6 +26,9 @@ public interface ModMenuApi extends ModMenuApiMarker {
 	}
 
 	/**
+	 * THIS ENTIRE API IS DEPRECATED. MOVE TO {@link com.terraformersmc.modmenu.api.ModMenuApi}
+	 * This API will be removed in 1.18 snapshots
+	 *
 	 * Used to provide config screen factories for other mods. This takes second
 	 * priority to a mod's own config screen factory provider. For example, if
 	 * mod `xyz` supplies a config screen factory, mod `abc` providing a config
@@ -29,7 +40,7 @@ public interface ModMenuApi extends ModMenuApiMarker {
 	 *
 	 * @return a map of mod ids to screen factories.
 	 */
-	default Map<String, io.github.prospector.modmenu.api.ConfigScreenFactory<?>> getProvidedConfigScreenFactories() {
+	default Map<String, ConfigScreenFactory<?>> getProvidedConfigScreenFactories() {
 		return ImmutableMap.of();
 	}
 }
