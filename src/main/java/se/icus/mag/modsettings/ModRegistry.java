@@ -4,6 +4,7 @@ import com.terraformersmc.modmenu.api.ModMenuApi;
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import net.fabricmc.loader.api.EntrypointException;
 import net.fabricmc.loader.api.FabricLoader;
+import net.fabricmc.loader.api.ModContainer;
 import net.fabricmc.loader.api.entrypoint.EntrypointContainer;
 import net.fabricmc.loader.api.metadata.ModMetadata;
 import net.minecraft.client.gui.screen.Screen;
@@ -34,13 +35,24 @@ public class ModRegistry {
         for (EntrypointContainer<ModMenuApi> entryPoint : modList) {
             ModMetadata metadata = entryPoint.getProvider().getMetadata();
             String modId = metadata.getId();
-            Main.LOGGER.log(Level.INFO,"Found configurable mod " + modId);
+            Main.LOGGER.log(Level.INFO,"Found configurable mod: " + modId + ", " + metadata.getName());
 
             try {
                 ModMenuApi modApi = entryPoint.getEntrypoint();
                 configScreenFactories.put(modId, modApi.getModConfigScreenFactory());
-                overridingConfigScreenFactories.putAll(modApi.getProvidedConfigScreenFactories());
+                Map<String, ConfigScreenFactory<?>> overridingFactories = modApi.getProvidedConfigScreenFactories();
+                overridingConfigScreenFactories.putAll(overridingFactories);
                 modNames.put(modId, metadata.getName());
+                for (String overriddenModId: overridingFactories.keySet()) {
+                    // We need to locate the proper mod from the modid to get the real name
+                    Optional<ModContainer> container = FabricLoader.getInstance().getModContainer(overriddenModId);
+                    if (container.isPresent()) {
+                        String modName = container.get().getMetadata().getName();
+                        Main.LOGGER.log(Level.INFO, "Found overridden config for mod: " + overriddenModId + ", " + modName);
+
+                        modNames.put(overriddenModId, modName);
+                    }
+                }
             } catch (EntrypointException e) {
                 Main.LOGGER.warn("Mod Menu API problem with mod " + modId, e);
             }
@@ -61,12 +73,17 @@ public class ModRegistry {
         return modNames.get(modId);
     }
 
+    private Screen getScreen(String modid, Map<String, ConfigScreenFactory<?>> map, Screen parentScreen) {
+        ConfigScreenFactory<?> factory = map.get(modid);
+        return (factory != null) ? factory.create(parentScreen) : null;
+    }
+
     public Screen getConfigScreen(String modid, Screen parentScreen) {
-        ConfigScreenFactory<?> factory = configScreenFactories.getOrDefault(modid, overridingConfigScreenFactories.get(modid));
-        if (factory != null) {
-            return factory.create(parentScreen);
+        Screen configScreen = getScreen(modid, configScreenFactories, parentScreen);
+        if (configScreen == null) {
+            configScreen = getScreen(modid, overridingConfigScreenFactories, parentScreen);
         }
 
-        return null;
+        return configScreen;
     }
 }
