@@ -1,7 +1,6 @@
 package io.github.prospector.modmenu.api;
 
 import com.google.common.collect.ImmutableMap;
-import com.terraformersmc.modmenu.util.ModMenuApiMarker;
 
 import java.util.Map;
 
@@ -10,7 +9,7 @@ import java.util.Map;
  *
  * Will be removed in 1.18 snapshots
  */
-public interface ModMenuApi extends ModMenuApiMarker {
+public interface ModMenuApi {
 	/**
 	 * THIS ENTIRE API IS DEPRECATED. MOVE TO {@link com.terraformersmc.modmenu.api.ModMenuApi}
 	 * This API will be removed in 1.18 snapshots
