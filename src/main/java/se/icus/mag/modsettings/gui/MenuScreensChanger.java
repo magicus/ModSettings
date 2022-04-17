@@ -20,61 +20,59 @@ public abstract class MenuScreensChanger {
     private static final int BUTTON_VERICAL_SPACING = 24;
 
     public static void postTitleScreenInit(TitleScreen screen) {
-        List<ClickableWidget> buttons = Screens.getButtons(screen);
-        int shiftDown = 0;
-
-        for (ClickableWidget button : buttons) {
-            if (buttonHasText(button, "modmenu.title") && button.getWidth() == TITLE_FULL_BUTTON_WIDTH) {
-                // If we find a wide ModMenu button, shorten it and fit in our button on the same row
-                button.setWidth(HALF_BUTTON_WIDTH);
-                button.x = screen.width / 2 + 2;
-
-                ClickableWidget msbutton = new ModSettingsButton(screen.width / 2 - TITLE_FULL_BUTTON_WIDTH / 2, button.y, HALF_BUTTON_WIDTH, BUTTON_HEIGHT, screen);
-                buttons.add(msbutton);
-                return;
-            }
-
-            if (buttonHasText(button, "menu.options")) {
-                // Otherwise put our button as full width, above "Options..." and shift all remaining buttons down
-                shiftDown = BUTTON_VERICAL_SPACING;
-
-                // Offset it 12 pixels up
-                ClickableWidget msbutton = new ModSettingsButton(screen.width / 2 - TITLE_FULL_BUTTON_WIDTH / 2, button.y - 12, TITLE_FULL_BUTTON_WIDTH, BUTTON_HEIGHT, screen);
-                buttons.add(msbutton);
-            }
-
-            if (!buttonHasText(button, "modsettings.button.title")) {
-                button.y += shiftDown;
-            }
-        }
+        injectModSettingsButton(screen, TITLE_FULL_BUTTON_WIDTH, 2,  BUTTON_VERICAL_SPACING / 2);
     }
 
     public static void postGameMenuScreenInit(GameMenuScreen screen) {
+        injectModSettingsButton(screen, INGAME_FULL_BUTTON_WIDTH, 4,  0);
+    }
+
+    private static void injectModSettingsButton(Screen screen, int fullButtonWidth,
+        int halfButtonSpacer, int verticalOffset) {
         List<ClickableWidget> buttons = Screens.getButtons(screen);
-        int shiftDown = 0;
+        boolean shortenModMenu = false;
+        ClickableWidget savedButton = null;
 
+        // First scout the menu to find best way to inject our button
         for (ClickableWidget button : buttons) {
-            if (buttonHasText(button, "modmenu.title") && button.getWidth() == INGAME_FULL_BUTTON_WIDTH) {
-                // If we find a wide ModMenu button, shorten it and fit in our button on the same row
-                button.setWidth(HALF_BUTTON_WIDTH);
-                button.x = screen.width / 2 + 4;
-
-                ClickableWidget msbutton = new ModSettingsButton(screen.width / 2 - INGAME_FULL_BUTTON_WIDTH / 2, button.y, HALF_BUTTON_WIDTH, BUTTON_HEIGHT, screen);
-                buttons.add(msbutton);
-                return;
+            if (buttonHasText(button, "modmenu.title") && button.getWidth() == fullButtonWidth) {
+                savedButton = button;
+                shortenModMenu = true;
+                // This is the preferred method, so break out if we found this
+                break;
             }
 
             if (buttonHasText(button, "menu.options")) {
                 // Otherwise put our button as full width, above "Options..." and shift all remaining buttons down
-                shiftDown = BUTTON_VERICAL_SPACING;
+                savedButton = button;
+            }
+        }
 
-                ClickableWidget msbutton = new ModSettingsButton(screen.width / 2 - INGAME_FULL_BUTTON_WIDTH / 2, button.y, INGAME_FULL_BUTTON_WIDTH, BUTTON_HEIGHT, screen);
-                buttons.add(msbutton);
+        if (shortenModMenu) {
+            // If we find a wide ModMenu button, shorten it and fit in our button on the same row
+            savedButton.setWidth(HALF_BUTTON_WIDTH);
+            savedButton.x = screen.width / 2 + halfButtonSpacer;
+
+            ClickableWidget msbutton = new ModSettingsButton(screen.width / 2 - fullButtonWidth / 2,
+                savedButton.y, HALF_BUTTON_WIDTH, BUTTON_HEIGHT, screen);
+            buttons.add(msbutton);
+        } else {
+            if (savedButton == null) {
+                // There is no "Options..." button. Just grab an arbitrary button
+                savedButton = buttons.get(0);
+            }
+            // Shift all buttons starting at "Options..." down
+            int optionsY = savedButton.y;
+            for (ClickableWidget button : buttons) {
+                if (button.y >= optionsY) {
+                    button.y += BUTTON_VERICAL_SPACING;
+                }
             }
 
-            if (!buttonHasText(button, "modsettings.button.title")) {
-                button.y += shiftDown;
-            }
+            // Put our button as full width, where "Options..." used to be
+            ClickableWidget msbutton = new ModSettingsButton(screen.width / 2 - fullButtonWidth / 2,
+                optionsY - verticalOffset, fullButtonWidth, BUTTON_HEIGHT, screen);
+            buttons.add(msbutton);
         }
     }
 
