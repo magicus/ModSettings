@@ -12,7 +12,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import se.icus.mag.modsettings.gui.MenuScreensChanger;
 
-@Mixin(value = Screen.class, priority = 1100)
+// Set priority so we run after ModMenu (1000) and MinimalMenu (1100)
+@Mixin(value = Screen.class, priority = 1500)
 public abstract class ScreenMixin extends AbstractParentElement implements Drawable {
 
     @Inject(method = "init(Lnet/minecraft/client/MinecraftClient;II)V", at = @At("RETURN"))
