@@ -5,6 +5,11 @@ Provides an easy to access configuration screen for all installed mods!
 Similar to how "Mod Options" worked in Forge, this will add a Vanilla-style menu
 screen with easy-to-access buttons to get to the configurations for your mods.
 
+You can go directly to this screen using the Mod Settings hotkey. This means 
+there  is no need to memorise all those hotkeys for settings of all your mods. 
+The Mod Settings hotkey is `F6` by default, but this can be changed in the 
+ordinary "Key Binds" options screen.
+
 I created this mod when I found myself over and over again go into the Mod Menu
 list, scroll to the bottom to find Tweakeroo or whatever, and then try to hit
 the configuration button on the opposite side of the screen. With this mod, you
@@ -12,7 +17,7 @@ can directly go to the configuration screen with just a single button, and
 unless you have an extreme amount of mods installed, they are all likely to fit
 on a single page.
 
-This mod requires Minecraft 1.17.1 and the Fabric loader.
+This mod requires Minecraft 1.17.1, 1.18.1 or 1.18.2 and the Fabric loader.
 
 ## Screenshot
 
@@ -35,8 +40,8 @@ be configured from within Mod Menu will not show up on the Mod Settings screen.
 
 ## Download
 
-You can download the latest version here:
-[modsettings-1.0.0+1.18.1.jar](https://github.com/magicus/ModSettings/releases/download/v1.0.0+1.18.1/modsettings-1.0.0+1.18.1.jar)
+You can download the latest version (for Minecraft 1.18.1 or 1.18.2) here:
+[modsettings-1.1.0+1.18.1.jar](https://github.com/magicus/ModSettings/releases/download/v1.1.0+1.18.1/modsettings-1.1.0+1.18.1.jar)
 
 ## Installation
 
@@ -48,12 +53,16 @@ mod](https://lmgtfy.app/?q=how+to+install+minecraft+fabric+mods)
 
 Do you have any problems with the mod? Please open an issue here on Github.
 
-Currently only Minecraft version 1.17.1 is supported, but it would probably be
+Currently only Minecraft versions 1.17.1 to 1.18.2 are supported, but it would probably be
 trivial to add support for other versions. If you want support for another
 version, please open an issue and state the requested version.
 
 ## Known Incompatibilities
 
-The mod [Content Creator Integration](https://www.curseforge.com/minecraft/mc-mods/content-creator-integration) contains a buggy implementation of the Mod Menu API. The result is that the GUI scale is changed when opening Mod Settings, even if you do not click the CCI button. The mod hardcodes references to immplementation details of Mod Menu itself so the bug does not manifest using Mod Menu. There is a [bug report](https://github.com/iChun/ContentCreatorIntegration-IssuesAndDocumentation/issues/82) on CCI for this behavior.
-
-The mod [Minimal Menu](https://www.curseforge.com/minecraft/mc-mods/minimal-menu) is currently incompatible with Mod Settings. This is tracked [here](https://github.com/magicus/ModSettings/issues/5).
+The mod [Content Creator Integration](https://www.curseforge.com/minecraft/mc-mods/content-creator-integration) 
+contains a buggy implementation of the Mod Menu API. The result is that the 
+GUI scale is changed when opening Mod Settings, even if you do not click the 
+CCI button. The mod hardcodes references to immplementation details of Mod Menu 
+itself so the bug does not manifest using Mod Menu. There is a 
+[bug report](https://github.com/iChun/ContentCreatorIntegration-IssuesAndDocumentation/issues/82) 
+on CCI for this behavior.
