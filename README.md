@@ -51,3 +51,9 @@ Do you have any problems with the mod? Please open an issue here on Github.
 Currently only Minecraft version 1.17.1 is supported, but it would probably be
 trivial to add support for other versions. If you want support for another
 version, please open an issue and state the requested version.
+
+## Known Incompatibilities
+
+The mod [Content Creator Integration](https://www.curseforge.com/minecraft/mc-mods/content-creator-integration) contains a buggy implementation of the Mod Menu API. The result is that the GUI scale is changed when opening Mod Settings, even if you do not click the CCI button. The mod hardcodes references to immplementation details of Mod Menu itself so the bug does not manifest using Mod Menu. There is a [bug report](https://github.com/iChun/ContentCreatorIntegration-IssuesAndDocumentation/issues/82) on CCI for this behavior.
+
+The mod [Minimal Menu](https://www.curseforge.com/minecraft/mc-mods/minimal-menu) is currently incompatible with Mod Settings. This is tracked [here](https://github.com/magicus/ModSettings/issues/5).
