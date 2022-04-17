@@ -38,6 +38,12 @@ present a configuration screen. All mods that can be configured from within Mod
 Menu will show up on the Mod Settings screen, and conversely, mods that cannot
 be configured from within Mod Menu will not show up on the Mod Settings screen.
 
+## Dependencies
+
+This mod needs Fabric API. If you have a modded Minecraft, chances are it is
+already installed. Otherwise, you can find it here: [Fabric API on Modrinth](
+https://modrinth.com/mod/fabric-api).
+
 ## Download
 
 The latest version is 1.1.0.
