@@ -5,9 +5,9 @@ Provides an easy to access configuration screen for all installed mods!
 Similar to how "Mod Options" worked in Forge, this will add a Vanilla-style menu
 screen with easy-to-access buttons to get to the configurations for your mods.
 
-You can go directly to this screen using the Mod Settings hotkey. This means 
-there  is no need to memorise all those hotkeys for settings of all your mods. 
-The Mod Settings hotkey is `F6` by default, but this can be changed in the 
+You can go directly to this screen using the Mod Settings hotkey. This means
+there is no need to memorize all those hotkeys for settings of all your mods.
+The Mod Settings hotkey is `F6` by default, but this can be changed in the
 ordinary "Key Binds" options screen.
 
 I created this mod when I found myself over and over again go into the Mod Menu
@@ -40,8 +40,21 @@ be configured from within Mod Menu will not show up on the Mod Settings screen.
 
 ## Download
 
-You can download the latest version (for Minecraft 1.18.1 or 1.18.2) here:
-[modsettings-1.1.0+1.18.1.jar](https://github.com/magicus/ModSettings/releases/download/v1.1.0+1.18.1/modsettings-1.1.0+1.18.1.jar)
+The latest version is 1.1.0.
+
+Direct download links for Minecraft 1.18.1-1.18.2:
+
+* Download from GitHub: [modsettings-1.1.0+1.18.1.jar](
+https://github.com/magicus/ModSettings/releases/download/v1.1.0%2B1.18.1/modsettings-1.1.0+1.18.1.jar)
+* Download from Modrinth: [modsettings-1.1.0+1.18.1.jar](
+https://cdn.modrinth.com/data/mfDfQvcJ/versions/1.1.0+1.18.1/modsettings-1.1.0%2B1.18.1.jar)
+* Download from CurseForge: [modsettings-1.1.0+1.18.1.jar](
+https://www.curseforge.com/minecraft/mc-mods/mod-settings/download/3757415)
+
+For all other Minecraft releases, check these download sites:
+* [GitHub releases](https://github.com/magicus/ModSettings/releases)
+* [Modrinth versions](https://modrinth.com/mod/mod-settings/versions)
+* [CurseForge](https://www.curseforge.com/minecraft/mc-mods/mod-settings/files)
 
 ## Installation
 
@@ -53,16 +66,17 @@ mod.](https://lmgtfy.app/?q=how+to+install+minecraft+fabric+mods)
 
 Do you have any problems with the mod? Please open an issue here on Github.
 
-Currently only Minecraft versions 1.17.1 to 1.18.2 are supported, but it would probably be
-trivial to add support for other versions. If you want support for another
-version, please open an issue and state the requested version.
+Currently only Minecraft versions 1.17.1 to 1.18.2 are supported, but it would
+probably be trivial to add support for other versions. If you want support for
+another version, please open an issue and state the requested version.
 
 ## Known Incompatibilities
 
-The mod [Content Creator Integration](https://www.curseforge.com/minecraft/mc-mods/content-creator-integration) 
-contains a buggy implementation of the Mod Menu API. The result is that the 
-GUI scale is changed when opening Mod Settings, even if you do not click the 
-CCI button. The mod hardcodes references to immplementation details of Mod Menu 
-itself so the bug does not manifest using Mod Menu. There is a 
-[bug report](https://github.com/iChun/ContentCreatorIntegration-IssuesAndDocumentation/issues/82) 
+The mod [Content Creator Integration](
+https://www.curseforge.com/minecraft/mc-mods/content-creator-integration)
+contains a buggy implementation of the Mod Menu API. The result is that the GUI
+scale is changed when opening Mod Settings, even if you do not click the CCI
+button. The mod hardcodes references to immplementation details of Mod Menu
+itself so the bug does not manifest using Mod Menu. There is a [bug report](
+https://github.com/iChun/ContentCreatorIntegration-IssuesAndDocumentation/issues/82)
 on CCI for this behavior.
