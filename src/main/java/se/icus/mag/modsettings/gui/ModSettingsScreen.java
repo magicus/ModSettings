@@ -1,6 +1,5 @@
 package se.icus.mag.modsettings.gui;
 
-import com.terraformersmc.modmenu.gui.ModsScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ScreenTexts;
 import net.minecraft.client.gui.widget.ButtonListWidget;
@@ -17,13 +16,14 @@ import se.icus.mag.modsettings.ModRegistry;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ModSettingsScreen extends ModsScreen {
+public class ModSettingsScreen extends Screen {
 	private static final int FULL_BUTTON_WIDTH = 200;
 	private static final int BUTTON_HEIGHT = 20;
 	private static final int TITLE_COLOR = 0xffffff;
 
 	private final Screen previous;
 	private ButtonListWidget list;
+	private boolean initIsProcessing;
 
 	public ModSettingsScreen(Screen previous) {
 		super(new TranslatableText("modsettings.screen.title"));
@@ -32,6 +32,11 @@ public class ModSettingsScreen extends ModsScreen {
 
 	@Override
 	protected void init() {
+		// Protect against incredibly stupid mods like Content Creator Integration that triggers
+		// a recursive call of Screen.init() while creating the settings screen...
+		if (initIsProcessing) return;
+		initIsProcessing = true;
+
 		// Put list between 32 pixels from top and bottom
 		this.list = new ButtonListWidget(this.client, this.width, this.height, 32, this.height - 32, 25);
 		this.list.addAll(getAllModConfigOptions());
@@ -40,6 +45,7 @@ public class ModSettingsScreen extends ModsScreen {
 		this.addDrawableChild(new ButtonWidget(this.width / 2 - FULL_BUTTON_WIDTH / 2, this.height - 27,
 				FULL_BUTTON_WIDTH, BUTTON_HEIGHT, ScreenTexts.DONE,
 				button -> this.client.setScreen(this.previous)));
+		initIsProcessing = false;
 	}
 
 	private Option[] getAllModConfigOptions() {

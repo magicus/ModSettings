@@ -1,11 +1,10 @@
 package com.terraformersmc.modmenu.api;
 
 import com.google.common.collect.ImmutableMap;
-import com.terraformersmc.modmenu.util.ModMenuApiMarker;
 
 import java.util.Map;
 
-public interface ModMenuApi extends ModMenuApiMarker {
+public interface ModMenuApi {
 	/**
 	 * Used to construct a new config screen instance when your mod's
 	 * configuration button is selected on the mod menu screen. The
@@ -29,7 +28,7 @@ public interface ModMenuApi extends ModMenuApiMarker {
 	 *
 	 * @return a map of mod ids to screen factories.
 	 */
-	default Map<String, io.github.prospector.modmenu.api.ConfigScreenFactory<?>> getProvidedConfigScreenFactories() {
+	default Map<String, ConfigScreenFactory<?>> getProvidedConfigScreenFactories() {
 		return ImmutableMap.of();
 	}
 }

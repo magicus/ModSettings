@@ -1,8 +1,14 @@
 package se.icus.mag.modsettings;
 
+import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
-import com.terraformersmc.modmenu.util.ModMenuApiMarker;
-import io.github.prospector.modmenu.api.ConfigScreenFactory;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import net.fabricmc.loader.api.EntrypointException;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
@@ -10,9 +16,6 @@ import net.fabricmc.loader.api.entrypoint.EntrypointContainer;
 import net.fabricmc.loader.api.metadata.ModMetadata;
 import net.minecraft.client.gui.screen.Screen;
 import org.apache.logging.log4j.Level;
-
-import java.util.*;
-import java.util.stream.Collectors;
 
 public class ModRegistry {
     private static final ModRegistry INSTANCE = new ModRegistry();
@@ -30,29 +33,32 @@ public class ModRegistry {
 
     /* This needs to be done att the right time of loading the mod, so cannot be done in the constructor. */
     public void registerMods() {
-        List<EntrypointContainer<ModMenuApiMarker>> modList =
-                FabricLoader.getInstance().getEntrypointContainers("modmenu", ModMenuApiMarker.class);
+        List<EntrypointContainer<Object>> modList =
+                FabricLoader.getInstance().getEntrypointContainers("modmenu", Object.class);
 
-        for (EntrypointContainer<ModMenuApiMarker> entryPoint : modList) {
+        for (EntrypointContainer<Object> entryPoint : modList) {
             ModMetadata metadata = entryPoint.getProvider().getMetadata();
             String modId = metadata.getId();
-            Main.LOGGER.log(Level.INFO,"Found configurable mod: " + modId + ", " + metadata.getName());
 
             try {
-                ModMenuApiMarker marker = entryPoint.getEntrypoint();
-                Map<String, ConfigScreenFactory<?>> overridingFactories;
-                if (marker instanceof ModMenuApi modApi) {
-                    configScreenFactories.put(modId, modApi.getModConfigScreenFactory());
-                    overridingFactories = modApi.getProvidedConfigScreenFactories();
-                    overridingConfigScreenFactories.putAll(overridingFactories);
-                } else if (marker instanceof io.github.prospector.modmenu.api.ModMenuApi modApi) {
-                    configScreenFactories.put(modId, modApi.getModConfigScreenFactory());
-                    overridingFactories = modApi.getProvidedConfigScreenFactories();
-                    overridingConfigScreenFactories.putAll(modApi.getProvidedConfigScreenFactories());
+                Object unknownApi = entryPoint.getEntrypoint();
+                ModMenuApi modApi;
+
+                if (unknownApi instanceof io.github.prospector.modmenu.api.ModMenuApi legacyApi) {
+                    Main.LOGGER.log(Level.INFO,"Found legacy configurable mod: " + modId + ", " + metadata.getName());
+                    modApi = new LegacyApiWrapper(legacyApi);
+                } else if (unknownApi instanceof com.terraformersmc.modmenu.api.ModMenuApi modernApi) {
+                    Main.LOGGER.log(Level.INFO,"Found configurable mod: " + modId + ", " + metadata.getName());
+                    modApi = modernApi;
                 } else {
-                    Main.LOGGER.warn("Unknown Mod Menu API version for mod " + modId);
+                    Main.LOGGER.warn("Unknown Mod Menu API version for mod " + modId + ", class: " + unknownApi.getClass());
                     continue;
                 }
+
+                configScreenFactories.put(modId, modApi.getModConfigScreenFactory());
+                Map<String, ConfigScreenFactory<?>> overridingFactories = modApi.getProvidedConfigScreenFactories();
+                overridingConfigScreenFactories.putAll(overridingFactories);
+
                 modNames.put(modId, metadata.getName());
                 for (String overriddenModId: overridingFactories.keySet()) {
                     // We need to locate the proper mod from the modid to get the real name
