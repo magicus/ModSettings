@@ -80,9 +80,10 @@ another version, please open an issue and state the requested version.
 
 The mod [Content Creator Integration](
 https://www.curseforge.com/minecraft/mc-mods/content-creator-integration)
-contains a buggy implementation of the Mod Menu API. The result is that the GUI
-scale is changed when opening Mod Settings, even if you do not click the CCI
-button. The mod hardcodes references to immplementation details of Mod Menu
-itself so the bug does not manifest using Mod Menu. There is a [bug report](
+versions 1.9.3 and older contains an incompatible implementation of the Mod Menu
+API. The result is that the GUI scale is changed when opening Mod Settings, even
+if you do not click the CCI button. The mod hardcodes references to
+implementation details of Mod Menu itself so the bug does not manifest using Mod
+Menu. This [will be fixed](
 https://github.com/iChun/ContentCreatorIntegration-IssuesAndDocumentation/issues/82)
-on CCI for this behavior.
+in future versions.
