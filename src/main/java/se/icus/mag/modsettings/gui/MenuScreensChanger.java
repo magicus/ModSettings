@@ -7,8 +7,9 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.ClickableWidget;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.TranslatableTextContent;
 
 import java.util.List;
 
@@ -78,12 +79,13 @@ public abstract class MenuScreensChanger {
 
     private static boolean buttonHasText(ClickableWidget button, String translationKey) {
         Text text = button.getMessage();
-        return text instanceof TranslatableText && ((TranslatableText) text).getKey().equals(translationKey);
+        return text instanceof MutableText mutableText &&
+            mutableText.getContent().equals(new TranslatableTextContent(translationKey));
     }
 
     public static class ModSettingsButton extends ButtonWidget {
         public ModSettingsButton(int x, int y, int width, int height, Screen screen) {
-            super(x, y, width, height, new TranslatableText("modsettings.button.title"),
+            super(x, y, width, height, Text.translatable("modsettings.button.title"),
                     button -> MinecraftClient.getInstance().setScreen(new ModSettingsScreen(screen)));
         }
     }

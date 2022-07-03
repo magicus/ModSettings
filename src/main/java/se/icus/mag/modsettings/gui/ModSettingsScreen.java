@@ -1,15 +1,10 @@
 package se.icus.mag.modsettings.gui;
 
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.ScreenTexts;
-import net.minecraft.client.gui.widget.ButtonListWidget;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.ClickableWidget;
-import net.minecraft.client.option.GameOptions;
-import net.minecraft.client.option.Option;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import se.icus.mag.modsettings.Main;
 import se.icus.mag.modsettings.ModRegistry;
 
@@ -22,11 +17,11 @@ public class ModSettingsScreen extends Screen {
 	private static final int TITLE_COLOR = 0xffffff;
 
 	private final Screen previous;
-	private ButtonListWidget list;
+	private ModListWidget list;
 	private boolean initIsProcessing;
 
 	public ModSettingsScreen(Screen previous) {
-		super(new TranslatableText("modsettings.screen.title"));
+		super(Text.translatable("modsettings.screen.title"));
 		this.previous = previous;
 	}
 
@@ -38,7 +33,7 @@ public class ModSettingsScreen extends Screen {
 		initIsProcessing = true;
 
 		// Put list between 32 pixels from top and bottom
-		this.list = new ButtonListWidget(this.client, this.width, this.height, 32, this.height - 32, 25);
+		this.list = new ModListWidget(this.client, this.width, this.height, 32, this.height - 32, 25);
 		this.list.addAll(getAllModConfigOptions());
 
 		this.addSelectableChild(this.list);
@@ -48,8 +43,8 @@ public class ModSettingsScreen extends Screen {
 		initIsProcessing = false;
 	}
 
-	private Option[] getAllModConfigOptions() {
-		List<Option> options = new LinkedList<>();
+	private ModSettingsOption[] getAllModConfigOptions() {
+		List<ModSettingsOption> options = new LinkedList<>();
 		for (String modId : ModRegistry.getInstance().getAllModIds()) {
 			try {
 				Screen configScreen = ModRegistry.getInstance().getConfigScreen(modId, this);
@@ -60,7 +55,7 @@ public class ModSettingsScreen extends Screen {
 				Main.LOGGER.error("Error creating Settings screen from mod " + modId, e);
 			}
 		}
-		return options.toArray(new Option[0]);
+		return options.toArray(new ModSettingsOption[0]);
 	}
 
 	@Override
@@ -72,24 +67,10 @@ public class ModSettingsScreen extends Screen {
 	}
 
 	@Override
-	public void onClose() {
+	public void close() {
 		this.client.setScreen(this.previous);
 	}
 
-	public class ModSettingsOption extends Option {
-		private final String modName;
-		private final Screen configScreen;
-
-		public ModSettingsOption(String modId, String modName, Screen configScreen) {
-			super(modId);
-			this.modName = modName;
-			this.configScreen = configScreen;
-		}
-
-		@Override
-		public ClickableWidget createButton(GameOptions options, int x, int y, int width) {
-			return new ButtonWidget(x, y, width, BUTTON_HEIGHT, Text.of(this.modName),
-					button -> client.setScreen(this.configScreen));
-		}
+	public record ModSettingsOption(String modId, String modName, Screen configScreen)  {
 	}
 }

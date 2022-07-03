@@ -17,7 +17,7 @@ can directly go to the configuration screen with just a single button, and
 unless you have an extreme amount of mods installed, they are all likely to fit
 on a single page.
 
-This mod requires Minecraft 1.17.1, 1.18.1 or 1.18.2 and the Fabric loader.
+This mod requires Minecraft 1.17.1 - 1.19 and the Fabric loader.
 
 ## Screenshot
 
@@ -48,13 +48,13 @@ https://modrinth.com/mod/fabric-api).
 
 The latest version is 1.1.0.
 
-Direct download links for Minecraft 1.18.1-1.18.2:
+Direct download links for Minecraft 1.19:
 
-* Download from GitHub: [modsettings-1.1.0+1.18.1.jar](
-https://github.com/magicus/ModSettings/releases/download/v1.1.0%2B1.18.1/modsettings-1.1.0+1.18.1.jar)
-* Download from Modrinth: [modsettings-1.1.0+1.18.1.jar](
-https://cdn.modrinth.com/data/mfDfQvcJ/versions/1.1.0+1.18.1/modsettings-1.1.0%2B1.18.1.jar)
-* Download from CurseForge: [modsettings-1.1.0+1.18.1.jar](
+* Download from GitHub: [modsettings-1.1.0+1.19.jar](
+https://github.com/magicus/ModSettings/releases/download/v1.1.0%2B1.19/modsettings-1.1.0+1.19.jar)
+* Download from Modrinth: [modsettings-1.1.0+1.19.jar](
+https://cdn.modrinth.com/data/mfDfQvcJ/versions/1.1.0+1.19/modsettings-1.1.0%2B1.19.jar)
+* Download from CurseForge: [modsettings-1.1.0+1.19.jar](
 https://www.curseforge.com/minecraft/mc-mods/mod-settings/download/3757415)
 
 For all other Minecraft releases, check these download sites:
@@ -72,10 +72,6 @@ mod.](https://lmgtfy.app/?q=how+to+install+minecraft+fabric+mods)
 
 Do you have any problems with the mod? Please open an issue here on Github.
 
-Currently only Minecraft versions 1.17.1 to 1.18.2 are supported, but it would
-probably be trivial to add support for other versions. If you want support for
-another version, please open an issue and state the requested version.
-
 ## Known Incompatibilities
 
 The mod [Content Creator Integration](
@@ -86,4 +82,4 @@ if you do not click the CCI button. The mod hardcodes references to
 implementation details of Mod Menu itself so the bug does not manifest using Mod
 Menu. This [will be fixed](
 https://github.com/iChun/ContentCreatorIntegration-IssuesAndDocumentation/issues/82)
-in future versions.
+in future versions of CCI.
