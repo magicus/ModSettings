@@ -55,7 +55,7 @@ https://github.com/magicus/ModSettings/releases/download/v1.1.0%2B1.19/modsettin
 * Download from Modrinth: [modsettings-1.1.0+1.19.jar](
 https://cdn.modrinth.com/data/mfDfQvcJ/versions/1.1.0+1.19/modsettings-1.1.0%2B1.19.jar)
 * Download from CurseForge: [modsettings-1.1.0+1.19.jar](
-https://www.curseforge.com/minecraft/mc-mods/mod-settings/download/3757415)
+https://www.curseforge.com/minecraft/mc-mods/mod-settings/download/3858420)
 
 For all other Minecraft releases, check these download sites:
 * [GitHub releases](https://github.com/magicus/ModSettings/releases)
