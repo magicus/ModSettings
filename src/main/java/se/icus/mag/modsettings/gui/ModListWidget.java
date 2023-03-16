@@ -39,10 +39,10 @@ public class ModListWidget extends ElementListWidget<ModListWidget.Entry> {
         final List<ButtonWidget> buttons;
 
         public ModEntry(ModSettingsScreen.ModSettingsOption mod1, ModSettingsScreen.ModSettingsOption mod2) {
-            ButtonWidget leftButton = new ButtonWidget(ModListWidget.this.width / 2 - 155, 0, 150, BUTTON_HEIGHT, Text.of(mod1.modName()),
+            ButtonWidget leftButton = new Button(ModListWidget.this.width / 2 - 155, 0, 150, BUTTON_HEIGHT, Text.of(mod1.modName()),
                     button -> client.setScreen(mod1.configScreen()));
             if (mod2 != null) {
-                ButtonWidget rightButton = new ButtonWidget(ModListWidget.this.width / 2 - 155 + 160, 0, 150, BUTTON_HEIGHT, Text.of(mod2.modName()),
+                ButtonWidget rightButton = new Button(ModListWidget.this.width / 2 - 155 + 160, 0, 150, BUTTON_HEIGHT, Text.of(mod2.modName()),
                         button -> client.setScreen(mod2.configScreen()));
                 buttons = ImmutableList.of(leftButton, rightButton);
             } else {
@@ -63,7 +63,7 @@ public class ModListWidget extends ElementListWidget<ModListWidget.Entry> {
         @Override
         public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
             buttons.forEach(button -> {
-                button.y = y;
+                button.setY(y);
                 button.render(matrices, mouseX, mouseY, tickDelta);
             });
         }

@@ -15,7 +15,7 @@ public class LegacyApiWrapper implements ModMenuApi {
 
   @Override
   public ConfigScreenFactory<?> getModConfigScreenFactory() {
-    return new LegacyScreenFactory(legacyApi.getModConfigScreenFactory());
+    return new LegacyScreenFactory<>(legacyApi.getModConfigScreenFactory());
   }
 
   @Override
@@ -23,13 +23,13 @@ public class LegacyApiWrapper implements ModMenuApi {
     Map<String, io.github.prospector.modmenu.api.ConfigScreenFactory<?>> legacyMap = legacyApi.getProvidedConfigScreenFactories();
 
     return legacyMap.keySet().stream().collect(Collectors.toMap(id -> id,
-        id -> new LegacyScreenFactory(legacyMap.get(id))));
+        id -> new LegacyScreenFactory<>(legacyMap.get(id))));
   }
 
   public static class LegacyScreenFactory<S extends Screen> implements ConfigScreenFactory<S> {
     private io.github.prospector.modmenu.api.ConfigScreenFactory<S> legcayFactory;
 
-    public LegacyScreenFactory(io.github.prospector.modmenu.api.ConfigScreenFactory legcayFactory) {
+    public LegacyScreenFactory(io.github.prospector.modmenu.api.ConfigScreenFactory<S> legcayFactory) {
       this.legcayFactory = legcayFactory;
     }
 

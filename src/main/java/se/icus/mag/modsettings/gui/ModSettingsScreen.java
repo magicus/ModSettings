@@ -37,7 +37,7 @@ public class ModSettingsScreen extends Screen {
 		this.list.addAll(getAllModConfigOptions());
 
 		this.addSelectableChild(this.list);
-		this.addDrawableChild(new ButtonWidget(this.width / 2 - FULL_BUTTON_WIDTH / 2, this.height - 27,
+		this.addDrawableChild(new Button(this.width / 2 - FULL_BUTTON_WIDTH / 2, this.height - 27,
 				FULL_BUTTON_WIDTH, BUTTON_HEIGHT, ScreenTexts.DONE,
 				button -> this.client.setScreen(this.previous)));
 		initIsProcessing = false;

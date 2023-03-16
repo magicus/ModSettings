@@ -52,10 +52,10 @@ public abstract class MenuScreensChanger {
         if (shortenModMenu) {
             // If we find a wide ModMenu button, shorten it and fit in our button on the same row
             savedButton.setWidth(HALF_BUTTON_WIDTH);
-            savedButton.x = screen.width / 2 + halfButtonSpacer;
+            savedButton.setX(screen.width / 2 + halfButtonSpacer);
 
             ClickableWidget msbutton = new ModSettingsButton(screen.width / 2 - fullButtonWidth / 2,
-                savedButton.y, HALF_BUTTON_WIDTH, BUTTON_HEIGHT, screen);
+                savedButton.getY(), HALF_BUTTON_WIDTH, BUTTON_HEIGHT, screen);
             buttons.add(msbutton);
         } else {
             if (savedButton == null) {
@@ -63,10 +63,10 @@ public abstract class MenuScreensChanger {
                 savedButton = buttons.get(0);
             }
             // Shift all buttons starting at "Options..." down
-            int optionsY = savedButton.y;
+            int optionsY = savedButton.getY();
             for (ClickableWidget button : buttons) {
-                if (button.y >= optionsY) {
-                    button.y += BUTTON_VERICAL_SPACING;
+                if (button.getY() >= optionsY) {
+                    button.setY(button.getY() + BUTTON_VERICAL_SPACING);
                 }
             }
 
@@ -83,7 +83,7 @@ public abstract class MenuScreensChanger {
             mutableText.getContent().equals(new TranslatableTextContent(translationKey));
     }
 
-    public static class ModSettingsButton extends ButtonWidget {
+    public static class ModSettingsButton extends Button {
         public ModSettingsButton(int x, int y, int width, int height, Screen screen) {
             super(x, y, width, height, Text.translatable("modsettings.button.title"),
                     button -> MinecraftClient.getInstance().setScreen(new ModSettingsScreen(screen)));
