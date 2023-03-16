@@ -9,7 +9,7 @@ import net.minecraft.text.Text;
  * uses it for instanceof checks. That will cause exceptions if Mod Menu is not also installed.
  */
 public class ModsScreen extends Screen {
-  protected ModsScreen(Text title) {
-    super(title);
+  protected ModsScreen(Screen previousScreen) {
+    super(Text.translatable("modmenu.title"));
   }
 }

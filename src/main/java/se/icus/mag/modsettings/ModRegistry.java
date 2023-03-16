@@ -44,10 +44,7 @@ public class ModRegistry {
                 Object unknownApi = entryPoint.getEntrypoint();
                 ModMenuApi modApi;
 
-                if (unknownApi instanceof io.github.prospector.modmenu.api.ModMenuApi legacyApi) {
-                    Main.LOGGER.log(Level.INFO,"Found legacy configurable mod: " + modId + ", " + metadata.getName());
-                    modApi = new LegacyApiWrapper(legacyApi);
-                } else if (unknownApi instanceof com.terraformersmc.modmenu.api.ModMenuApi modernApi) {
+                if (unknownApi instanceof com.terraformersmc.modmenu.api.ModMenuApi modernApi) {
                     Main.LOGGER.log(Level.INFO,"Found configurable mod: " + modId + ", " + metadata.getName());
                     modApi = modernApi;
                 } else {
