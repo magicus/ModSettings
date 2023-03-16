@@ -4,6 +4,7 @@
   "package": "se.icus.mag.modsettings.mixin",
   "compatibilityLevel": "JAVA_16",
   "client": [
+    "GridWidgetAccessor",
     "ScreenMixin"
   ],
   "injectors": {
