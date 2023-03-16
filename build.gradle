@@ -40,6 +40,10 @@ java {
 	withSourcesJar()
 }
 
+loom {
+	clientOnlyMinecraftJar()
+}
+
 jar {
 	from("LICENSE") {
 		rename { "${it}_${project.archivesBaseName}"}
