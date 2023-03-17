@@ -1,19 +1,13 @@
 package se.icus.mag.modsettings.gui;
 
-import java.util.Optional;
+import java.util.List;
 import net.fabricmc.fabric.api.client.screen.v1.Screens;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.GameMenuScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.gui.widget.ClickableWidget;
-import net.minecraft.client.gui.widget.GridWidget;
-import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableTextContent;
-
-import java.util.List;
-import se.icus.mag.modsettings.mixin.GridWidgetAccessor;
 
 public abstract class MenuScreensChanger {
     private static final int TITLE_FULL_BUTTON_WIDTH = 200;
@@ -24,19 +18,15 @@ public abstract class MenuScreensChanger {
 
     public static void postTitleScreenInit(TitleScreen screen) {
         List<ClickableWidget> buttons = Screens.getButtons(screen);
-        injectModSettingsButton(screen, buttons, TITLE_FULL_BUTTON_WIDTH, 2,  BUTTON_VERICAL_SPACING / 2);
+        injectModSettingsButton(screen, buttons, TITLE_FULL_BUTTON_WIDTH, 2, BUTTON_VERICAL_SPACING / 2);
     }
 
     public static void postGameMenuScreenInit(GameMenuScreen screen) {
-        Optional<ClickableWidget> gridWidgetOpt = Screens.getButtons(screen).stream().filter(w -> w instanceof GridWidget).findFirst();
-        if (gridWidgetOpt.isEmpty()) return;
-
-        List<ClickableWidget> buttons = ((GridWidgetAccessor) gridWidgetOpt.get()).getChildren();
-        injectModSettingsButton(screen, buttons, INGAME_FULL_BUTTON_WIDTH, 4,  0);
+        List<ClickableWidget> buttons = Screens.getButtons(screen);
+        injectModSettingsButton(screen, buttons, INGAME_FULL_BUTTON_WIDTH, 4, 0);
     }
 
-    private static void injectModSettingsButton(Screen screen, List<ClickableWidget> buttons, int fullButtonWidth,
-        int halfButtonSpacer, int verticalOffset) {
+    private static void injectModSettingsButton(Screen screen, List<ClickableWidget> buttons, int fullButtonWidth, int halfButtonSpacer, int verticalOffset) {
         boolean shortenModMenu = false;
         ClickableWidget savedButton = null;
 
@@ -60,8 +50,7 @@ public abstract class MenuScreensChanger {
             savedButton.setWidth(HALF_BUTTON_WIDTH);
             savedButton.setX(screen.width / 2 + halfButtonSpacer);
 
-            ClickableWidget msbutton = new ModSettingsButton(screen.width / 2 - fullButtonWidth / 2,
-                savedButton.getY(), HALF_BUTTON_WIDTH, BUTTON_HEIGHT, screen);
+            ClickableWidget msbutton = new ModSettingsButton(screen.width / 2 - fullButtonWidth / 2, savedButton.getY(), HALF_BUTTON_WIDTH, BUTTON_HEIGHT, screen);
             buttons.add(msbutton);
         } else {
             if (savedButton == null) {
@@ -77,22 +66,19 @@ public abstract class MenuScreensChanger {
             }
 
             // Put our button as full width, where "Options..." used to be
-            ClickableWidget msbutton = new ModSettingsButton(screen.width / 2 - fullButtonWidth / 2,
-                optionsY - verticalOffset, fullButtonWidth, BUTTON_HEIGHT, screen);
+            ClickableWidget msbutton = new ModSettingsButton(screen.width / 2 - fullButtonWidth / 2, optionsY - verticalOffset, fullButtonWidth, BUTTON_HEIGHT, screen);
             buttons.add(msbutton);
         }
     }
 
     private static boolean buttonHasText(ClickableWidget button, String translationKey) {
         Text text = button.getMessage();
-        return text instanceof MutableText mutableText &&
-            mutableText.getContent().equals(new TranslatableTextContent(translationKey));
+        return text.equals(Text.translatable(translationKey));
     }
 
     public static class ModSettingsButton extends Button {
         public ModSettingsButton(int x, int y, int width, int height, Screen screen) {
-            super(x, y, width, height, Text.translatable("modsettings.button.title"),
-                    button -> MinecraftClient.getInstance().setScreen(new ModSettingsScreen(screen)));
+            super(x, y, width, height, Text.translatable("modsettings.button.title"), button -> MinecraftClient.getInstance().setScreen(new ModSettingsScreen(screen)));
         }
     }
 }
