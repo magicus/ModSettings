@@ -27,7 +27,7 @@ public class ModSettingsScreen extends Screen {
 
 	@Override
 	protected void init() {
-		// Protect against incredibly stupid mods like Content Creator Integration that triggers
+		// Protect against mods like Content Creator Integration that triggers
 		// a recursive call of Screen.init() while creating the settings screen...
 		if (initIsProcessing) return;
 		initIsProcessing = true;
