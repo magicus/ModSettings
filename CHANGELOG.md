@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.0+1.20.3 - 2024-04-20
+
+### Added
+
+- Support for Minecraft 1.20.3
+
 ## 1.1.0+1.20.2 - 2024-04-20
 
 ### Added

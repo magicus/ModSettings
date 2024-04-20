@@ -7,7 +7,6 @@ import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.ElementListWidget;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 
 import java.util.List;
@@ -15,8 +14,8 @@ import java.util.List;
 public class ModListWidget extends ElementListWidget<ModListWidget.Entry> {
     private static final int BUTTON_HEIGHT = 20;
 
-    public ModListWidget(MinecraftClient client, int width, int height, int top, int bottom, int itemHeight) {
-        super(client, width, height, top, bottom, itemHeight);
+    public ModListWidget(MinecraftClient client, int width, int height, int y, int itemHeight) {
+        super(client, width, height, y, itemHeight);
         this.centerListVertically = false;
     }
 

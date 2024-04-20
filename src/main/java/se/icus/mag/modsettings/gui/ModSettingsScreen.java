@@ -2,8 +2,6 @@ package se.icus.mag.modsettings.gui;
 
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
 import se.icus.mag.modsettings.Main;
@@ -34,10 +32,11 @@ public class ModSettingsScreen extends Screen {
 		initIsProcessing = true;
 
 		// Put list between 32 pixels from top and bottom
-		this.list = new ModListWidget(this.client, this.width, this.height, 32, this.height - 32, 25);
+		this.list = new ModListWidget(this.client, this.width, this.height - 64,  32, 25);
 		this.list.addAll(getAllModConfigOptions());
 
 		this.addSelectableChild(this.list);
+		this.addDrawableChild(this.list);
 		this.addDrawableChild(new Button(this.width / 2 - FULL_BUTTON_WIDTH / 2, this.height - 27,
 				FULL_BUTTON_WIDTH, BUTTON_HEIGHT, ScreenTexts.DONE,
 				button -> this.client.setScreen(this.previous)));
@@ -62,7 +61,6 @@ public class ModSettingsScreen extends Screen {
 	@Override
 	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
 		super.render(context, mouseX, mouseY, delta);
-		this.list.render(context, mouseX, mouseY, delta);
 		context.drawCenteredTextWithShadow(this.textRenderer, this.title, this.width / 2, 5, TITLE_COLOR);
 	}
 
