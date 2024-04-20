@@ -77,6 +77,8 @@ jobs:
           version: ${{ steps.version.outputs.full }}
           version-type: release
           changelog-file: ${{ steps.changelog.outputs.file }}
+          dependencies: |
+            fabric-api(required){modrinth:P7dR8mSH}{curseforge:306612}#(ignore:github)
 
       - name: Show results
         run: |
