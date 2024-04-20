@@ -4,9 +4,10 @@
 [![CurseForge](https://cf.way2muchnoise.eu/544608.svg)](https://www.curseforge.com/minecraft/mc-mods/mod-settings)
 [![GitHub](https://img.shields.io/github/downloads/magicus/ModSettings/total?logo=github)](https://github.com/magicus/ModSettings/releases)
 
-Provides an easy to access configuration screen for all installed mods!
+This is a Minecraft mod for Fabric that provides an easy to access configuration
+screen for all installed mods!
 
-Similar to how "Mod Options" worked in Forge, this will add a Vanilla-style menu
+Similar to how "Mod Options" works in Forge, this will add a Vanilla-style menu
 screen with easy-to-access buttons to get to the configurations for your mods.
 
 You can go directly to this screen using the Mod Settings hotkey. This means
@@ -21,7 +22,7 @@ can directly go to the configuration screen with just a single button, and
 unless you have an extreme amount of mods installed, they are all likely to fit
 on a single page.
 
-This mod requires Minecraft 1.17.1 - 1.19.3 and the Fabric loader.
+This mod requires the Fabric loader and the Fabric API. See dependencies below.
 
 ## Screenshot
 
@@ -50,26 +51,15 @@ https://modrinth.com/mod/fabric-api).
 
 ## Download
 
-The latest version is 1.1.0.
+You can download the mod from any of these sites:
 
-Direct download links for Minecraft 1.19.3:
-
-* Download from GitHub: [modsettings-1.1.0+1.19.3.jar](
-  https://github.com/magicus/ModSettings/releases/download/v1.1.0%2B1.19.3/modsettings-1.1.0+1.19.3.jar)
-* Download from Modrinth: [modsettings-1.1.0+1.19.3.jar](
-  https://cdn.modrinth.com/data/mfDfQvcJ/versions/vcMwogFZ/modsettings-1.1.0%2B1.19.3.jar)
-* Download from CurseForge: [modsettings-1.1.0+1.19.3.jar](
-https://www.curseforge.com/minecraft/mc-mods/mod-settings/download/4441419)
-  
-For all other Minecraft releases, check these download sites:
 * [GitHub releases](https://github.com/magicus/ModSettings/releases)
 * [Modrinth versions](https://modrinth.com/mod/mod-settings/versions)
 * [CurseForge](https://www.curseforge.com/minecraft/mc-mods/mod-settings/files)
 
 ## Installation
 
-Install this as you would any other Fabric mod. (I recommend using a replacement launcher such as Prism Launcher for modded Minecraft.) [I still need help installing this
-mod.](https://lmgtfy.app/?q=how+to+install+minecraft+fabric+mods)
+Install this as you would any other Fabric mod. (I recommend using a replacement launcher such as Prism Launcher for modded Minecraft.)
 
 ## Support
 
