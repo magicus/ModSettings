@@ -25,6 +25,9 @@ public abstract class MenuScreensChanger {
     }
 
     public static void postGameMenuScreenInit(GameMenuScreen screen) {
+        // If this is the Pause game menu (F3 + Esc), do not inject anything
+        if (Screens.getButtons(screen).isEmpty()) return;
+
         injectModSettingsButton(screen, INGAME_FULL_BUTTON_WIDTH, 4,  0);
     }
 
