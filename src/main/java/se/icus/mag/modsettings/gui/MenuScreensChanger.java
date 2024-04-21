@@ -21,6 +21,9 @@ public abstract class MenuScreensChanger {
 
     public static void postGameMenuScreenInit(Screen screen) {
         List<ClickableWidget> buttons = Screens.getButtons(screen);
+        // If this is the Pause game menu (F3 + Esc), do not inject anything
+        if (buttons.size() == 1 && buttonHasText(buttons.get(0), "menu.paused")) return;
+
         injectModSettingsButton(screen, buttons, INGAME_FULL_BUTTON_WIDTH, 4, 0);
     }
 
