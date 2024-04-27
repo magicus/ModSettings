@@ -12,18 +12,15 @@ import java.util.List;
 import se.icus.mag.modsettings.gui.widget.Button;
 import se.icus.mag.modsettings.gui.widget.ModListWidget;
 
-public class ModSettingsScreen extends Screen {
+public class ModSettingsScreen extends TitledScreen {
 	private static final int FULL_BUTTON_WIDTH = 200;
 	private static final int BUTTON_HEIGHT = 20;
-	private static final int TITLE_COLOR = 0xffffff;
 
-	private final Screen previous;
 	private ModListWidget list;
 	private boolean initIsProcessing;
 
 	public ModSettingsScreen(Screen previous) {
-		super(Text.translatable("modsettings.screen.title"));
-		this.previous = previous;
+		super(Text.translatable("modsettings.screen.title"), previous);
 	}
 
 	@Override
@@ -58,17 +55,6 @@ public class ModSettingsScreen extends Screen {
 			}
 		}
 		return options.toArray(new ModSettingsOption[0]);
-	}
-
-	@Override
-	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-		super.render(context, mouseX, mouseY, delta);
-		context.drawCenteredTextWithShadow(this.textRenderer, this.title, this.width / 2, 5, TITLE_COLOR);
-	}
-
-	@Override
-	public void close() {
-		this.client.setScreen(this.previous);
 	}
 
 	public record ModSettingsOption(String modId, String modName, Screen configScreen)  {
