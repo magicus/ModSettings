@@ -2,5 +2,8 @@
   "modsettings.screen.title": "Mod Settings",
   "modsettings.button.title": "Mod Settings...",
   "modsettings.key.open": "Open Mod Settings",
-  "modsettings.key.category": "Mod Settings"
+  "modsettings.key.category": "Mod Settings",
+  "modsettings.indirect.show": "Show all mods",
+  "modsettings.indirect.hide": "Hide indirect mods",
+  "modsettings.search.tooltip": "Search for mods"
 }

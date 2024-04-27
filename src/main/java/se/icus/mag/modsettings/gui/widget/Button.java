@@ -1,4 +1,4 @@
-package se.icus.mag.modsettings.gui;
+package se.icus.mag.modsettings.gui.widget;
 
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.text.Text;

@@ -8,10 +8,11 @@ import net.minecraft.client.util.InputUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.glfw.GLFW;
-import se.icus.mag.modsettings.gui.ModSettingsScreen;
+import se.icus.mag.modsettings.gui.screen.ModSettingsScreen;
 
 public class Main implements ClientModInitializer {
     public static final Logger LOGGER = LogManager.getLogger("modsettings");
+    public static final Options OPTIONS = new Options();
 
     @Override
     public void onInitializeClient() {
@@ -24,5 +25,10 @@ public class Main implements ClientModInitializer {
                 client.getInstance().setScreen(new ModSettingsScreen(null));
             }
         });
+    }
+
+    public static class Options {
+        public String filterText = "";
+        public boolean showIndirect = false;
     }
 }

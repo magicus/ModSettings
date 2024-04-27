@@ -6,6 +6,8 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.text.Text;
+import se.icus.mag.modsettings.gui.screen.ModSettingsScreen;
+import se.icus.mag.modsettings.gui.widget.Button;
 
 public abstract class MenuScreensChanger {
     private static final int TITLE_FULL_BUTTON_WIDTH = 200;
