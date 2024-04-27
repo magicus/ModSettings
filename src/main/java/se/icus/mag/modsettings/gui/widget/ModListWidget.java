@@ -1,4 +1,4 @@
-package se.icus.mag.modsettings.gui;
+package se.icus.mag.modsettings.gui.widget;
 
 import com.google.common.collect.ImmutableList;
 import net.minecraft.client.MinecraftClient;
@@ -10,6 +10,7 @@ import net.minecraft.client.gui.widget.ElementListWidget;
 import net.minecraft.text.Text;
 
 import java.util.List;
+import se.icus.mag.modsettings.gui.screen.ModSettingsScreen;
 
 public class ModListWidget extends ElementListWidget<ModListWidget.Entry> {
     private static final int BUTTON_HEIGHT = 20;

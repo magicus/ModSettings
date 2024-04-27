@@ -1,4 +1,4 @@
-package se.icus.mag.modsettings.gui;
+package se.icus.mag.modsettings.gui.screen;
 
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
@@ -9,6 +9,8 @@ import se.icus.mag.modsettings.ModRegistry;
 
 import java.util.LinkedList;
 import java.util.List;
+import se.icus.mag.modsettings.gui.widget.Button;
+import se.icus.mag.modsettings.gui.widget.ModListWidget;
 
 public class ModSettingsScreen extends Screen {
 	private static final int FULL_BUTTON_WIDTH = 200;
