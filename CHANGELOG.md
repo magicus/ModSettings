@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.2.0 - 2024-04-28
+
+### Fixed
+
+- When pressing F3+Esc to pause the game, the mod could either crash, or
+  incorrectly show the Mod Settings button. (Fixes #14)
+
 ## 1.1.0+1.18.1 - 2022-04-17
 
 ### Added
