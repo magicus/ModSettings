@@ -8,7 +8,7 @@ import se.icus.mag.modsettings.ModRegistry;
 
 import java.util.LinkedList;
 import java.util.List;
-import se.icus.mag.modsettings.gui.ModSettingsOption;
+import se.icus.mag.modsettings.gui.ModConfigInfo;
 import se.icus.mag.modsettings.gui.widget.Button;
 import se.icus.mag.modsettings.gui.widget.ModListWidget;
 
@@ -42,18 +42,18 @@ public class ModSettingsScreen extends TitledScreen {
 		initIsProcessing = false;
 	}
 
-	private ModSettingsOption[] getAllModConfigOptions() {
-		List<ModSettingsOption> options = new LinkedList<>();
+	private ModConfigInfo[] getAllModConfigOptions() {
+		List<ModConfigInfo> options = new LinkedList<>();
 		for (String modId : ModRegistry.getInstance().getAllModIds()) {
 			try {
 				Screen configScreen = ModRegistry.getInstance().getConfigScreen(modId, this);
 				if (configScreen != null) {
-					options.add(new ModSettingsOption(modId, ModRegistry.getInstance().getModName(modId), configScreen));
+					options.add(new ModConfigInfo(modId, ModRegistry.getInstance().getModName(modId), configScreen));
 				}
 			} catch (Throwable e) {
 				Main.LOGGER.error("Error creating Settings screen from mod " + modId, e);
 			}
 		}
-		return options.toArray(new ModSettingsOption[0]);
+		return options.toArray(new ModConfigInfo[0]);
 	}
 }

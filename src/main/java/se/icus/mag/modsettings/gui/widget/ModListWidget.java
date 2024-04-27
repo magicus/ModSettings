@@ -10,7 +10,7 @@ import net.minecraft.client.gui.widget.ElementListWidget;
 import net.minecraft.text.Text;
 
 import java.util.List;
-import se.icus.mag.modsettings.gui.ModSettingsOption;
+import se.icus.mag.modsettings.gui.ModConfigInfo;
 
 public class ModListWidget extends ElementListWidget<ModListWidget.Entry> {
     private static final int BUTTON_HEIGHT = 20;
@@ -30,7 +30,7 @@ public class ModListWidget extends ElementListWidget<ModListWidget.Entry> {
         return super.getScrollbarPositionX() + 32;
     }
 
-    public void addAll(ModSettingsOption[] options) {
+    public void addAll(ModConfigInfo[] options) {
         for (int i = 0; i < options.length; i += 2) {
             addEntry(new ModEntry(options[i], i < options.length - 1 ? options[i + 1] : null));
         }
@@ -39,7 +39,7 @@ public class ModListWidget extends ElementListWidget<ModListWidget.Entry> {
     public class ModEntry extends Entry {
         final List<ButtonWidget> buttons;
 
-        public ModEntry(ModSettingsOption mod1, ModSettingsOption mod2) {
+        public ModEntry(ModConfigInfo mod1, ModConfigInfo mod2) {
             ButtonWidget leftButton = new Button(ModListWidget.this.width / 2 - 155, 0, 150, BUTTON_HEIGHT, Text.of(mod1.modName()),
                     button -> client.setScreen(mod1.configScreen()));
             if (mod2 != null) {
