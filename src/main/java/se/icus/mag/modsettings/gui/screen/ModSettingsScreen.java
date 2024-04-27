@@ -44,7 +44,7 @@ public class ModSettingsScreen extends TitledScreen {
 
 	private ModConfigInfo[] getAllModConfigOptions() {
 		List<ModConfigInfo> options = new LinkedList<>();
-		for (String modId : ModRegistry.getInstance().getAllModIds()) {
+		for (String modId : ModRegistry.getInstance().getVisibleModIds(true, "")) {
 			try {
 				Screen configScreen = ModRegistry.getInstance().getConfigScreen(modId, this);
 				if (configScreen != null) {
