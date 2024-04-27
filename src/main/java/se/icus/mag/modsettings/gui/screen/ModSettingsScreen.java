@@ -1,6 +1,5 @@
 package se.icus.mag.modsettings.gui.screen;
 
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
@@ -9,6 +8,7 @@ import se.icus.mag.modsettings.ModRegistry;
 
 import java.util.LinkedList;
 import java.util.List;
+import se.icus.mag.modsettings.gui.ModSettingsOption;
 import se.icus.mag.modsettings.gui.widget.Button;
 import se.icus.mag.modsettings.gui.widget.ModListWidget;
 
@@ -55,8 +55,5 @@ public class ModSettingsScreen extends TitledScreen {
 			}
 		}
 		return options.toArray(new ModSettingsOption[0]);
-	}
-
-	public record ModSettingsOption(String modId, String modName, Screen configScreen)  {
 	}
 }
