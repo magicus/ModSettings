@@ -1,5 +1,17 @@
 # Changelog
 
+## 2.0.0 - 2024-04-28
+
+### Added
+
+- Add a toggleable button for showing or hiding indirect mods. By default
+  indirect mods are not shown. Indirect mods are installed as child mods from a
+  top-level mod, and most of the time the setting screens are not relevant for
+  those.
+- Add a search/filter widget to hide non-matching mods. This is useful when you
+  have a lot of mods installed. By typing a few characters, only mods with a
+  matching name or id will be shown.
+
 ## 1.1.0+1.20.3 - 2024-04-20
 
 ### Added
