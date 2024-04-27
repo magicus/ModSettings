@@ -32,19 +32,25 @@ public class ModSettingsScreen extends TitledScreen {
 
         // Put list between 32 pixels from top and bottom
         this.list = new ModListWidget(this.client, this.width, this.height - 64, 32, 25);
-        this.list.addAll(getAllModConfigOptions());
 
         this.addSelectableChild(this.list);
         this.addDrawableChild(this.list);
         this.addDrawableChild(new Button(this.width / 2 - FULL_BUTTON_WIDTH / 2, this.height - 27,
                 FULL_BUTTON_WIDTH, BUTTON_HEIGHT, ScreenTexts.DONE,
                 button -> this.client.setScreen(this.previous)));
+
+        updateModButtons();
         initIsProcessing = false;
     }
 
-    private ModConfigInfo[] getAllModConfigOptions() {
+    private void updateModButtons() {
+        List<String> visibleModIds = ModRegistry.getInstance().getVisibleModIds(Main.OPTIONS.showIndirect, Main.OPTIONS.filterText);
+        this.list.setModButtons(getModConfigInfo(visibleModIds));
+    }
+
+    private List<ModConfigInfo> getModConfigInfo(List<String> modIds) {
         List<ModConfigInfo> options = new LinkedList<>();
-        for (String modId : ModRegistry.getInstance().getVisibleModIds(true, "")) {
+        for (String modId : modIds) {
             try {
                 Screen configScreen = ModRegistry.getInstance().getConfigScreen(modId, this);
                 if (configScreen != null) {
@@ -54,6 +60,6 @@ public class ModSettingsScreen extends TitledScreen {
                 Main.LOGGER.error("Error creating Settings screen from mod " + modId, e);
             }
         }
-        return options.toArray(new ModConfigInfo[0]);
+        return options;
     }
 }
