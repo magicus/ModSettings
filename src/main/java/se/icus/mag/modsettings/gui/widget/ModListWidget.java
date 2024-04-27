@@ -1,6 +1,7 @@
 package se.icus.mag.modsettings.gui.widget;
 
 import com.google.common.collect.ImmutableList;
+import java.util.List;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Element;
@@ -8,8 +9,6 @@ import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.ElementListWidget;
 import net.minecraft.text.Text;
-
-import java.util.List;
 import se.icus.mag.modsettings.gui.ModConfigInfo;
 
 public class ModListWidget extends ElementListWidget<ModListWidget.Entry> {
@@ -30,9 +29,10 @@ public class ModListWidget extends ElementListWidget<ModListWidget.Entry> {
         return super.getScrollbarPositionX() + 32;
     }
 
-    public void addAll(ModConfigInfo[] options) {
-        for (int i = 0; i < options.length; i += 2) {
-            addEntry(new ModEntry(options[i], i < options.length - 1 ? options[i + 1] : null));
+    public void setModButtons(List<ModConfigInfo> options) {
+        clearEntries();
+        for (int i = 0; i < options.size(); i += 2) {
+            addEntry(new ModEntry(options.get(i), i < options.size() - 1 ? options.get(i + 1) : null));
         }
     }
 
@@ -70,6 +70,6 @@ public class ModListWidget extends ElementListWidget<ModListWidget.Entry> {
         }
     }
 
-    public static abstract class Entry extends ElementListWidget.Entry<Entry> {
+    public abstract static class Entry extends ElementListWidget.Entry<Entry> {
     }
 }

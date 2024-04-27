@@ -12,6 +12,7 @@ import se.icus.mag.modsettings.gui.screen.ModSettingsScreen;
 
 public class Main implements ClientModInitializer {
     public static final Logger LOGGER = LogManager.getLogger("modsettings");
+    public static final Options OPTIONS = new Options();
 
     @Override
     public void onInitializeClient() {
@@ -24,5 +25,10 @@ public class Main implements ClientModInitializer {
                 client.getInstance().setScreen(new ModSettingsScreen(null));
             }
         });
+    }
+
+    public static class Options {
+        public String filterText = "";
+        public boolean showIndirect = false;
     }
 }
