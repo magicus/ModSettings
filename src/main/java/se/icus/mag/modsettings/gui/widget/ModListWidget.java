@@ -1,6 +1,7 @@
-package se.icus.mag.modsettings.gui;
+package se.icus.mag.modsettings.gui.widget;
 
 import com.google.common.collect.ImmutableList;
+import java.util.List;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Element;
@@ -8,8 +9,7 @@ import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.ElementListWidget;
 import net.minecraft.text.Text;
-
-import java.util.List;
+import se.icus.mag.modsettings.gui.ModConfigInfo;
 
 public class ModListWidget extends ElementListWidget<ModListWidget.Entry> {
     private static final int BUTTON_HEIGHT = 20;
@@ -29,16 +29,17 @@ public class ModListWidget extends ElementListWidget<ModListWidget.Entry> {
         return super.getScrollbarPositionX() + 32;
     }
 
-    public void addAll(ModSettingsScreen.ModSettingsOption[] options) {
-        for (int i = 0; i < options.length; i += 2) {
-            addEntry(new ModEntry(options[i], i < options.length - 1 ? options[i + 1] : null));
+    public void setModButtons(List<ModConfigInfo> options) {
+        clearEntries();
+        for (int i = 0; i < options.size(); i += 2) {
+            addEntry(new ModEntry(options.get(i), i < options.size() - 1 ? options.get(i + 1) : null));
         }
     }
 
     public class ModEntry extends Entry {
         final List<ButtonWidget> buttons;
 
-        public ModEntry(ModSettingsScreen.ModSettingsOption mod1, ModSettingsScreen.ModSettingsOption mod2) {
+        public ModEntry(ModConfigInfo mod1, ModConfigInfo mod2) {
             ButtonWidget leftButton = new Button(ModListWidget.this.width / 2 - 155, 0, 150, BUTTON_HEIGHT, Text.of(mod1.modName()),
                     button -> client.setScreen(mod1.configScreen()));
             if (mod2 != null) {
@@ -69,6 +70,6 @@ public class ModListWidget extends ElementListWidget<ModListWidget.Entry> {
         }
     }
 
-    public static abstract class Entry extends ElementListWidget.Entry<Entry> {
+    public abstract static class Entry extends ElementListWidget.Entry<Entry> {
     }
 }
