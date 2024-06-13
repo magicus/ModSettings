@@ -25,8 +25,8 @@ public class ModListWidget extends ElementListWidget<ModListWidget.Entry> {
     }
 
     @Override
-    protected int getScrollbarPositionX() {
-        return super.getScrollbarPositionX() + 32;
+    protected int getScrollbarX() {
+        return super.getScrollbarX() + 32;
     }
 
     public void addAll(ModSettingsScreen.ModSettingsOption[] options) {
