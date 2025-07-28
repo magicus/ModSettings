@@ -4,6 +4,8 @@
 [![CurseForge](https://img.shields.io/curseforge/dt/544608?logo=curseforge)](https://www.curseforge.com/minecraft/mc-mods/mod-settings)
 [![GitHub](https://img.shields.io/github/downloads/magicus/ModSettings/total?logo=github)](https://github.com/magicus/ModSettings/releases)
 
+![Logo](docs/logo.png)
+
 This is a Minecraft mod for Fabric that provides an easy to access configuration
 screen for all installed mods!
 
