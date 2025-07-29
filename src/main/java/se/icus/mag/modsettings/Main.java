@@ -54,6 +54,6 @@ public class Main implements ClientModInitializer {
 
     public static class Options {
         public String filterText = "";
-        public boolean showIndirect = false;
+        public boolean showAllMods = false;
     }
 }

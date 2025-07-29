@@ -48,11 +48,11 @@ public class ModSettingsScreen extends TitledScreen {
                 15,
                 List.of(new Identifier("modsettings", "expand"), new Identifier("modsettings", "collapse")),
                 List.of(
-                        Tooltip.of(Text.translatable("modsettings.indirect.show")),
-                        Tooltip.of(Text.translatable("modsettings.indirect.hide"))),
-                Main.OPTIONS.showIndirect ? 1 : 0,
+                        Tooltip.of(Text.translatable("modsettings.allmods.show")),
+                        Tooltip.of(Text.translatable("modsettings.allmods.hide"))),
+                Main.OPTIONS.showAllMods ? 1 : 0,
                 selection -> {
-                    Main.OPTIONS.showIndirect = (selection == 1);
+                    Main.OPTIONS.showAllMods = (selection == 1);
                     updateModButtons();
                 });
         this.addDrawableChild(showIndirectButton);
@@ -103,8 +103,8 @@ public class ModSettingsScreen extends TitledScreen {
     }
 
     private void updateModButtons() {
-        List<String> visibleModIds =
-                ModRegistry.getInstance().getVisibleModIds(Main.OPTIONS.showIndirect, Main.OPTIONS.filterText);
+        List<String> visibleModIds = ModRegistry.getInstance()
+                .getVisibleModIds(Main.OPTIONS.showAllMods, Main.OPTIONS.showAllMods, Main.OPTIONS.filterText);
         this.list.setModButtons(getModConfigInfo(visibleModIds));
     }
 

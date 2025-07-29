@@ -20,6 +20,7 @@ import net.fabricmc.loader.api.EntrypointException;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.fabricmc.loader.api.entrypoint.EntrypointContainer;
+import net.fabricmc.loader.api.metadata.CustomValue;
 import net.fabricmc.loader.api.metadata.ModMetadata;
 import net.minecraft.client.gui.screen.Screen;
 
@@ -28,6 +29,7 @@ public class ModRegistry {
 
     private final Map<String, String> modNames = new HashMap<>();
     private final Map<String, Set<String>> modHierarchy = new HashMap<>();
+    private final Set<String> libraryMods = new HashSet<>();
 
     private final Map<String, ConfigScreenFactory<?>> configScreenFactories = new HashMap<>();
     private final Map<String, ConfigScreenFactory<?>> overridingConfigScreenFactories = new HashMap<>();
@@ -43,6 +45,11 @@ public class ModRegistry {
         for (ModContainer modContainer : FabricLoader.getInstance().getAllMods()) {
             String modId = modContainer.getMetadata().getId();
             Optional<ModContainer> parent = modContainer.getContainingMod();
+            if (isLibrary(modContainer)) {
+                libraryMods.add(modId);
+                Main.LOGGER.info("Found library mod: " + modId + ", "
+                        + modContainer.getMetadata().getName());
+            }
             if (parent.isPresent()) {
                 String parentId = parent.get().getMetadata().getId();
                 Set<String> parentMod = modHierarchy.computeIfAbsent(parentId, k -> new HashSet<>());
@@ -103,10 +110,11 @@ public class ModRegistry {
         return modNames.keySet().stream().sorted(sorter).filter(modId -> !modId.equals("minecraft"));
     }
 
-    public List<String> getVisibleModIds(boolean showIndirect, String filterText) {
+    public List<String> getVisibleModIds(boolean showIndirect, boolean showLibraries, String filterText) {
         // If showIndirect is false, only include mods that is a parent.
         return getAllModIds()
                 .filter(modId -> showIndirect || modHierarchy.containsKey(modId))
+                .filter(modId -> showLibraries || !libraryMods.contains(modId))
                 .filter(modId -> filterText.isBlank() || modIdMatches(modId, filterText))
                 .collect(Collectors.toList());
     }
@@ -135,5 +143,29 @@ public class ModRegistry {
         }
 
         return configScreen;
+    }
+
+    private boolean isLibrary(ModContainer modContainer) {
+        ModMetadata metadata = modContainer.getMetadata();
+        CustomValue modMenuValue = metadata.getCustomValue("modmenu");
+        Set<String> badges = getCustomStrings(modMenuValue, "badges");
+        return badges.contains("library");
+    }
+
+    private Set<String> getCustomStrings(CustomValue customValue, String key) {
+        if (customValue == null || customValue.getType() != CustomValue.CvType.OBJECT) {
+            return Set.of();
+        }
+
+        CustomValue.CvObject object = customValue.getAsObject();
+        if (!object.containsKey(key)) {
+            return Set.of();
+        }
+
+        Set<String> strings = new HashSet<>();
+        for (CustomValue value : object.get(key).getAsArray()) {
+            strings.add(value.getAsString());
+        }
+        return strings;
     }
 }

@@ -1,7 +1,7 @@
 {
+  "modsettings.allmods.hide": "Hide indirect mods and libraries",
+  "modsettings.allmods.show": "Show all mods",
   "modsettings.button.title": "Mod Settings...",
-  "modsettings.indirect.hide": "Hide indirect mods",
-  "modsettings.indirect.show": "Show all mods",
   "modsettings.key.category": "Mod Settings",
   "modsettings.key.open": "Open Mod Settings",
   "modsettings.screen.title": "Mod Settings",
