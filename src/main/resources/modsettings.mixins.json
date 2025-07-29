@@ -1,6 +1,7 @@
 {
   "client": [
     "GridWidgetAccessor",
+    "KeyBindingAccessor",
     "ScreenMixin"
   ],
   "compatibilityLevel": "JAVA_16",
