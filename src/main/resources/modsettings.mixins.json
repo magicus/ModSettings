@@ -1,6 +1,5 @@
 {
   "client": [
-    "GridWidgetAccessor",
     "KeyBindingAccessor",
     "ScreenMixin"
   ],
