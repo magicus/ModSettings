@@ -45,7 +45,7 @@ processResources {
     inputs.properties([
         "fabric_api_version": fabric_api_version,
         "loader_version": project.loader_version,
-        "supported_minecraft_versions": project.minecraft_version,
+        "supported_minecraft_versions": project.supported_minecraft_versions,
         "version": project.version,
     ])
 
@@ -53,7 +53,7 @@ processResources {
         expand([
             fabric_api_version: fabric_api_version,
             loader_version: project.loader_version,
-            supported_minecraft_versions: project.minecraft_version,
+            supported_minecraft_versions: project.supported_minecraft_versions,
             version: project.version,
         ])
     }
