@@ -30,9 +30,8 @@
   ],
 
   "depends": {
-    "fabricloader": ">=0.7.4",
-    "fabric-screen-api-v1": ">=1.0.4",
-    "fabric-key-binding-api-v1": ">=1.0.1",
-    "minecraft": "~1.20.3"
+    "fabricloader": ">=${loader_version}",
+    "fabric-api": ">=${fabric_api_version}",
+    "minecraft": "${supported_minecraft_versions}"
   }
 }
