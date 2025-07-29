@@ -16,7 +16,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.glfw.GLFW;
 import se.icus.mag.modsettings.gui.screen.ModSettingsScreen;
-import se.icus.mag.modsettings.mixin.KeyBindingAccessor;
 
 public class Main implements ClientModInitializer {
     public static final Logger LOGGER = LogManager.getLogger("modsettings");
@@ -47,7 +46,7 @@ public class Main implements ClientModInitializer {
     }
 
     private static void checkForModKeyPress(MinecraftClient client, Screen screen) {
-        InputUtil.Key boundKey = ((KeyBindingAccessor) modSettingsKey).getBoundKey();
+        InputUtil.Key boundKey = KeyBindingHelper.getBoundKeyOf(modSettingsKey);
         if (InputUtil.isKeyPressed(client.getWindow().getHandle(), boundKey.getCode())) {
             client.setScreen(new ModSettingsScreen(screen));
         }
