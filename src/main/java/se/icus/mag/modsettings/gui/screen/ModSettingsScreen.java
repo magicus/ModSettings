@@ -92,6 +92,16 @@ public class ModSettingsScreen extends TitledScreen {
         initIsProcessing = false;
     }
 
+    @Override
+    public boolean charTyped(char chr, int modifiers) {
+        return searchWidget.charTyped(chr, modifiers);
+    }
+
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        return searchWidget.keyPressed(keyCode, scanCode, modifiers);
+    }
+
     private void updateModButtons() {
         List<String> visibleModIds =
                 ModRegistry.getInstance().getVisibleModIds(Main.OPTIONS.showIndirect, Main.OPTIONS.filterText);

@@ -99,5 +99,26 @@ public class SearchWidget extends ContainerWidget {
     }
 
     @Override
+    public boolean charTyped(char chr, int modifiers) {
+        var textBoxAlreadyShown = this.showTextBox;
+        if (!textBoxAlreadyShown) {
+            // Temporary enable the text box to allow it to receive typing
+            this.showTextBox = true;
+            updateTextBoxVisibility();
+        }
+        boolean handled = textBox.charTyped(chr, modifiers);
+        if (!handled && !textBoxAlreadyShown) {
+            this.showTextBox = false;
+            updateTextBoxVisibility();
+        }
+        return handled;
+    }
+
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        return textBox.keyPressed(keyCode, scanCode, modifiers);
+    }
+
+    @Override
     protected void appendClickableNarrations(NarrationMessageBuilder builder) {}
 }
