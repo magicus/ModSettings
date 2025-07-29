@@ -1,3 +1,7 @@
+/*
+ * Copyright © Magnus Ihse Bursie 2025.
+ * This file is released under the MIT License. See LICENSE for full license details.
+ */
 package se.icus.mag.modsettings.gui.screen;
 
 import java.util.LinkedList;
@@ -35,24 +39,36 @@ public class ModSettingsScreen extends TitledScreen {
         initIsProcessing = true;
 
         // Add the toggle show indirect mods button
-        IconToggleButtonWidget showIndirectButton = new IconToggleButtonWidget(10, 6,
-                BUTTON_HEIGHT, BUTTON_HEIGHT, 15, 15,
-                List.of(new Identifier("modsettings", "expand"),
-                        new Identifier("modsettings", "collapse")),
-                List.of(Tooltip.of(Text.translatable("modsettings.indirect.show")),
+        IconToggleButtonWidget showIndirectButton = new IconToggleButtonWidget(
+                10,
+                6,
+                BUTTON_HEIGHT,
+                BUTTON_HEIGHT,
+                15,
+                15,
+                List.of(new Identifier("modsettings", "expand"), new Identifier("modsettings", "collapse")),
+                List.of(
+                        Tooltip.of(Text.translatable("modsettings.indirect.show")),
                         Tooltip.of(Text.translatable("modsettings.indirect.hide"))),
-                Main.OPTIONS.showIndirect ? 1 : 0, selection -> {
+                Main.OPTIONS.showIndirect ? 1 : 0,
+                selection -> {
                     Main.OPTIONS.showIndirect = (selection == 1);
                     updateModButtons();
                 });
         this.addDrawableChild(showIndirectButton);
 
         // Add the search widget
-        searchWidget = new SearchWidget(40, 6, 100,
-                Main.OPTIONS.filterText, this.textRenderer, text -> {
+        searchWidget = new SearchWidget(
+                40,
+                6,
+                100,
+                Main.OPTIONS.filterText,
+                this.textRenderer,
+                text -> {
                     Main.OPTIONS.filterText = text;
                     updateModButtons();
-                }, () -> this.setFocused(searchWidget));
+                },
+                () -> this.setFocused(searchWidget));
 
         this.addDrawableChild(searchWidget);
         this.setInitialFocus(searchWidget);
@@ -64,14 +80,21 @@ public class ModSettingsScreen extends TitledScreen {
         this.addDrawableChild(this.list);
 
         // Add the Done button
-        this.addDrawableChild(new Button(this.width / 2 - FULL_BUTTON_WIDTH / 2, this.height - 27, FULL_BUTTON_WIDTH, BUTTON_HEIGHT, ScreenTexts.DONE, button -> this.client.setScreen(this.previous)));
+        this.addDrawableChild(new Button(
+                this.width / 2 - FULL_BUTTON_WIDTH / 2,
+                this.height - 27,
+                FULL_BUTTON_WIDTH,
+                BUTTON_HEIGHT,
+                ScreenTexts.DONE,
+                button -> this.client.setScreen(this.previous)));
 
         updateModButtons();
         initIsProcessing = false;
     }
 
     private void updateModButtons() {
-        List<String> visibleModIds = ModRegistry.getInstance().getVisibleModIds(Main.OPTIONS.showIndirect, Main.OPTIONS.filterText);
+        List<String> visibleModIds =
+                ModRegistry.getInstance().getVisibleModIds(Main.OPTIONS.showIndirect, Main.OPTIONS.filterText);
         this.list.setModButtons(getModConfigInfo(visibleModIds));
     }
 
@@ -81,7 +104,8 @@ public class ModSettingsScreen extends TitledScreen {
             try {
                 Screen configScreen = ModRegistry.getInstance().getConfigScreen(modId, this);
                 if (configScreen != null) {
-                    options.add(new ModConfigInfo(modId, ModRegistry.getInstance().getModName(modId), configScreen));
+                    options.add(
+                            new ModConfigInfo(modId, ModRegistry.getInstance().getModName(modId), configScreen));
                 }
             } catch (Throwable e) {
                 Main.LOGGER.error("Error creating Settings screen from mod " + modId, e);

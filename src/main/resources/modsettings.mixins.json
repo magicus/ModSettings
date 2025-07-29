@@ -1,13 +1,13 @@
 {
-  "required": true,
-  "minVersion": "0.8",
-  "package": "se.icus.mag.modsettings.mixin",
-  "compatibilityLevel": "JAVA_16",
   "client": [
     "GridWidgetAccessor",
     "ScreenMixin"
   ],
+  "compatibilityLevel": "JAVA_16",
   "injectors": {
     "defaultRequire": 1
-  }
+  },
+  "minVersion": "0.8",
+  "package": "se.icus.mag.modsettings.mixin",
+  "required": true
 }

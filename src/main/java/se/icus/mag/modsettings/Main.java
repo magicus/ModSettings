@@ -1,3 +1,7 @@
+/*
+ * Copyright © Magnus Ihse Bursie 2025.
+ * This file is released under the MIT License. See LICENSE for full license details.
+ */
 package se.icus.mag.modsettings;
 
 import net.fabricmc.api.ClientModInitializer;
@@ -18,7 +22,8 @@ public class Main implements ClientModInitializer {
     public void onInitializeClient() {
         ModRegistry.getInstance().registerMods();
 
-        KeyBinding modSettingsKey = KeyBindingHelper.registerKeyBinding(new KeyBinding("modsettings.key.open", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_F6, "modsettings.key.category"));
+        KeyBinding modSettingsKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                "modsettings.key.open", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_F6, "modsettings.key.category"));
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             while (modSettingsKey.wasPressed()) {

@@ -1,3 +1,7 @@
+/*
+ * Copyright © Magnus Ihse Bursie 2025.
+ * This file is released under the MIT License. See LICENSE for full license details.
+ */
 package se.icus.mag.modsettings.mixin;
 
 import java.util.List;
@@ -8,6 +12,6 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(GridWidget.class)
 public interface GridWidgetAccessor {
-	@Accessor
-	List<ClickableWidget> getChildren();
+    @Accessor
+    List<ClickableWidget> getChildren();
 }

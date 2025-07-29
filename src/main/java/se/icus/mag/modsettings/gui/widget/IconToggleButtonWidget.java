@@ -1,3 +1,7 @@
+/*
+ * Copyright © Magnus Ihse Bursie 2025.
+ * This file is released under the MIT License. See LICENSE for full license details.
+ */
 package se.icus.mag.modsettings.gui.widget;
 
 import java.util.List;
@@ -12,8 +16,17 @@ public class IconToggleButtonWidget extends IconButtonWidget {
 
     private int selection;
 
-    public IconToggleButtonWidget(int x, int y, int width, int height, int textureWidth, int textureHeight,
-                                  List<Identifier> textures, List<Tooltip> tooltips, int selection, ToggleAction onChange) {
+    public IconToggleButtonWidget(
+            int x,
+            int y,
+            int width,
+            int height,
+            int textureWidth,
+            int textureHeight,
+            List<Identifier> textures,
+            List<Tooltip> tooltips,
+            int selection,
+            ToggleAction onChange) {
         super(x, y, width, height, textureWidth, textureHeight, ButtonWidget::onPress);
 
         this.textures = textures;

@@ -1,3 +1,7 @@
+/*
+ * Copyright © Magnus Ihse Bursie 2025.
+ * This file is released under the MIT License. See LICENSE for full license details.
+ */
 package se.icus.mag.modsettings.gui.widget;
 
 import net.minecraft.client.font.TextRenderer;
@@ -11,14 +15,27 @@ public class IconButtonWidget extends ButtonWidget {
     private final int textureHeight;
     protected Identifier texture;
 
-    public IconButtonWidget(int x, int y, int width, int height,int textureWidth, int textureHeight,
-                            Identifier texture, ButtonWidget.PressAction onPress) {
+    public IconButtonWidget(
+            int x,
+            int y,
+            int width,
+            int height,
+            int textureWidth,
+            int textureHeight,
+            Identifier texture,
+            ButtonWidget.PressAction onPress) {
         this(x, y, width, height, textureWidth, textureHeight, onPress);
         this.texture = texture;
     }
 
-    protected IconButtonWidget(int x, int y, int width, int height,int textureWidth, int textureHeight,
-                            ButtonWidget.PressAction onPress) {
+    protected IconButtonWidget(
+            int x,
+            int y,
+            int width,
+            int height,
+            int textureWidth,
+            int textureHeight,
+            ButtonWidget.PressAction onPress) {
         super(x, y, width, height, Text.empty(), onPress, DEFAULT_NARRATION_SUPPLIER);
         this.textureWidth = textureWidth;
         this.textureHeight = textureHeight;
@@ -33,6 +50,5 @@ public class IconButtonWidget extends ButtonWidget {
     }
 
     @Override
-    public void drawMessage(DrawContext context, TextRenderer textRenderer, int color) {
-    }
+    public void drawMessage(DrawContext context, TextRenderer textRenderer, int color) {}
 }

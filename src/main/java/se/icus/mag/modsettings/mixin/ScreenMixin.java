@@ -1,3 +1,7 @@
+/*
+ * Copyright © Magnus Ihse Bursie 2025.
+ * This file is released under the MIT License. See LICENSE for full license details.
+ */
 package se.icus.mag.modsettings.mixin;
 
 import net.minecraft.client.MinecraftClient;
@@ -15,7 +19,6 @@ import se.icus.mag.modsettings.gui.MenuScreensChanger;
 // which hooks into TitleScreen.init(), which is called as part of Screen.init()
 @Mixin(value = Screen.class, priority = 1500)
 public abstract class ScreenMixin {
-
     @Inject(method = "init(Lnet/minecraft/client/MinecraftClient;II)V", at = @At("TAIL"))
     private void init(MinecraftClient client, int width, int height, CallbackInfo info) {
         Screen screen = (Screen) (Object) this;

@@ -1,3 +1,7 @@
+/*
+ * Copyright © Magnus Ihse Bursie 2025.
+ * This file is released under the MIT License. See LICENSE for full license details.
+ */
 package se.icus.mag.modsettings.gui.widget;
 
 import java.util.List;
@@ -23,16 +27,21 @@ public class SearchWidget extends ContainerWidget {
     private final TextFieldWidget textBox;
     private boolean showTextBox;
 
-    public SearchWidget(int x, int y, int width, String text, TextRenderer textRenderer,
-                        Consumer<String> changedListener, Runnable requestFocus) {
+    public SearchWidget(
+            int x,
+            int y,
+            int width,
+            String text,
+            TextRenderer textRenderer,
+            Consumer<String> changedListener,
+            Runnable requestFocus) {
         super(x, y, width, BUTTON_HEIGHT, Text.empty());
 
         this.textRenderer = textRenderer;
         this.requestFocus = requestFocus;
 
-        IconButtonWidget searchButton = new IconButtonWidget(x, y, BUTTON_HEIGHT, BUTTON_HEIGHT,
-                15, 15, new Identifier("modsettings", "search"),
-                b -> {
+        IconButtonWidget searchButton = new IconButtonWidget(
+                x, y, BUTTON_HEIGHT, BUTTON_HEIGHT, 15, 15, new Identifier("modsettings", "search"), b -> {
                     this.setText("");
 
                     this.showTextBox = !this.showTextBox;
@@ -40,8 +49,7 @@ public class SearchWidget extends ContainerWidget {
                 });
         searchButton.setTooltip(Tooltip.of(Text.translatable("modsettings.search.tooltip")));
 
-        textBox = new TextFieldWidget(this.textRenderer, x + 26, y + 2, width - 26, 16,
-                Text.empty());
+        textBox = new TextFieldWidget(this.textRenderer, x + 26, y + 2, width - 26, 16, Text.empty());
         textBox.setText(text);
         textBox.setChangedListener(changedListener);
 
@@ -91,6 +99,5 @@ public class SearchWidget extends ContainerWidget {
     }
 
     @Override
-    protected void appendClickableNarrations(NarrationMessageBuilder builder) {
-    }
+    protected void appendClickableNarrations(NarrationMessageBuilder builder) {}
 }

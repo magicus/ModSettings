@@ -1,3 +1,7 @@
+/*
+ * Copyright © Magnus Ihse Bursie 2025.
+ * This file is released under the MIT License. See LICENSE for full license details.
+ */
 package se.icus.mag.modsettings;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
@@ -28,8 +32,7 @@ public class ModRegistry {
     private final Map<String, ConfigScreenFactory<?>> configScreenFactories = new HashMap<>();
     private final Map<String, ConfigScreenFactory<?>> overridingConfigScreenFactories = new HashMap<>();
 
-    private ModRegistry() {
-    }
+    private ModRegistry() {}
 
     public static ModRegistry getInstance() {
         return INSTANCE;
@@ -64,7 +67,8 @@ public class ModRegistry {
                     Main.LOGGER.info("Found configurable mod: " + modId + ", " + metadata.getName());
                     modApi = modernApi;
                 } else {
-                    Main.LOGGER.warn("Unknown Mod Menu API version for mod " + modId + ", class: " + unknownApi.getClass());
+                    Main.LOGGER.warn(
+                            "Unknown Mod Menu API version for mod " + modId + ", class: " + unknownApi.getClass());
                     continue;
                 }
 
@@ -73,9 +77,10 @@ public class ModRegistry {
                 overridingConfigScreenFactories.putAll(overridingFactories);
 
                 modNames.put(modId, metadata.getName());
-                for (String overriddenModId: overridingFactories.keySet()) {
+                for (String overriddenModId : overridingFactories.keySet()) {
                     // We need to locate the proper mod from the modid to get the real name
-                    Optional<ModContainer> container = FabricLoader.getInstance().getModContainer(overriddenModId);
+                    Optional<ModContainer> container =
+                            FabricLoader.getInstance().getModContainer(overriddenModId);
                     if (container.isPresent()) {
                         String modName = container.get().getMetadata().getName();
                         Main.LOGGER.info("Found overridden config for mod: " + overriddenModId + ", " + modName);
@@ -95,8 +100,7 @@ public class ModRegistry {
 
         // Fabric treats Vanilla ("minecraft") as a mod and returns the normal Options screen.
         // We don't want that so filter it out.
-        return modNames.keySet().stream().sorted(sorter)
-                .filter(modId -> !modId.equals("minecraft"));
+        return modNames.keySet().stream().sorted(sorter).filter(modId -> !modId.equals("minecraft"));
     }
 
     public List<String> getVisibleModIds(boolean showIndirect, String filterText) {

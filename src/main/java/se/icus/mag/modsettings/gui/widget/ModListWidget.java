@@ -1,3 +1,7 @@
+/*
+ * Copyright © Magnus Ihse Bursie 2025.
+ * This file is released under the MIT License. See LICENSE for full license details.
+ */
 package se.icus.mag.modsettings.gui.widget;
 
 import com.google.common.collect.ImmutableList;
@@ -40,10 +44,20 @@ public class ModListWidget extends ElementListWidget<ModListWidget.Entry> {
         final List<ButtonWidget> buttons;
 
         public ModEntry(ModConfigInfo mod1, ModConfigInfo mod2) {
-            ButtonWidget leftButton = new Button(ModListWidget.this.width / 2 - 155, 0, 150, BUTTON_HEIGHT, Text.of(mod1.modName()),
+            ButtonWidget leftButton = new Button(
+                    ModListWidget.this.width / 2 - 155,
+                    0,
+                    150,
+                    BUTTON_HEIGHT,
+                    Text.of(mod1.modName()),
                     button -> client.setScreen(mod1.configScreen()));
             if (mod2 != null) {
-                ButtonWidget rightButton = new Button(ModListWidget.this.width / 2 - 155 + 160, 0, 150, BUTTON_HEIGHT, Text.of(mod2.modName()),
+                ButtonWidget rightButton = new Button(
+                        ModListWidget.this.width / 2 - 155 + 160,
+                        0,
+                        150,
+                        BUTTON_HEIGHT,
+                        Text.of(mod2.modName()),
                         button -> client.setScreen(mod2.configScreen()));
                 buttons = ImmutableList.of(leftButton, rightButton);
             } else {
@@ -62,7 +76,17 @@ public class ModListWidget extends ElementListWidget<ModListWidget.Entry> {
         }
 
         @Override
-        public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+        public void render(
+                DrawContext context,
+                int index,
+                int y,
+                int x,
+                int entryWidth,
+                int entryHeight,
+                int mouseX,
+                int mouseY,
+                boolean hovered,
+                float tickDelta) {
             buttons.forEach(button -> {
                 button.setY(y);
                 button.render(context, mouseX, mouseY, tickDelta);
@@ -70,6 +94,5 @@ public class ModListWidget extends ElementListWidget<ModListWidget.Entry> {
         }
     }
 
-    public abstract static class Entry extends ElementListWidget.Entry<Entry> {
-    }
+    public abstract static class Entry extends ElementListWidget.Entry<Entry> {}
 }

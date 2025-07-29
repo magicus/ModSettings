@@ -1,3 +1,7 @@
+/*
+ * Copyright © Magnus Ihse Bursie 2025.
+ * This file is released under the MIT License. See LICENSE for full license details.
+ */
 package se.icus.mag.modsettings.gui;
 
 import java.util.List;
@@ -29,8 +33,12 @@ public abstract class MenuScreensChanger {
         injectModSettingsButton(screen, buttons, INGAME_FULL_BUTTON_WIDTH, 4, 0);
     }
 
-    private static void injectModSettingsButton(Screen screen, List<ClickableWidget> buttons, int fullButtonWidth,
-        int halfButtonSpacer, int verticalOffset) {
+    private static void injectModSettingsButton(
+            Screen screen,
+            List<ClickableWidget> buttons,
+            int fullButtonWidth,
+            int halfButtonSpacer,
+            int verticalOffset) {
         boolean shortenModMenu = false;
         ClickableWidget savedButton = null;
 
@@ -54,8 +62,12 @@ public abstract class MenuScreensChanger {
             savedButton.setWidth(HALF_BUTTON_WIDTH);
             savedButton.setX(screen.width / 2 + halfButtonSpacer);
 
-            ClickableWidget msbutton = new ModSettingsButton(screen.width / 2 - fullButtonWidth / 2,
-                savedButton.getY(), HALF_BUTTON_WIDTH, BUTTON_HEIGHT, screen);
+            ClickableWidget msbutton = new ModSettingsButton(
+                    screen.width / 2 - fullButtonWidth / 2,
+                    savedButton.getY(),
+                    HALF_BUTTON_WIDTH,
+                    BUTTON_HEIGHT,
+                    screen);
             buttons.add(msbutton);
         } else {
             if (savedButton == null) {
@@ -71,8 +83,12 @@ public abstract class MenuScreensChanger {
             }
 
             // Put our button as full width, where "Options..." used to be
-            ClickableWidget msbutton = new ModSettingsButton(screen.width / 2 - fullButtonWidth / 2,
-                optionsY - verticalOffset, fullButtonWidth, BUTTON_HEIGHT, screen);
+            ClickableWidget msbutton = new ModSettingsButton(
+                    screen.width / 2 - fullButtonWidth / 2,
+                    optionsY - verticalOffset,
+                    fullButtonWidth,
+                    BUTTON_HEIGHT,
+                    screen);
             buttons.add(msbutton);
         }
     }
@@ -84,7 +100,12 @@ public abstract class MenuScreensChanger {
 
     public static class ModSettingsButton extends Button {
         public ModSettingsButton(int x, int y, int width, int height, Screen screen) {
-            super(x, y, width, height, Text.translatable("modsettings.button.title"),
+            super(
+                    x,
+                    y,
+                    width,
+                    height,
+                    Text.translatable("modsettings.button.title"),
                     button -> MinecraftClient.getInstance().setScreen(new ModSettingsScreen(screen)));
         }
     }
