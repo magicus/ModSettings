@@ -61,9 +61,8 @@ public class ModListWidget extends ElementListWidget<ModListWidget.Entry> {
         }
 
         @Override
-        public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+        public void render(DrawContext context, int mouseX, int mouseY, boolean hovered, float tickDelta) {
             buttons.forEach(button -> {
-                button.setY(y);
                 button.render(context, mouseX, mouseY, tickDelta);
             });
         }

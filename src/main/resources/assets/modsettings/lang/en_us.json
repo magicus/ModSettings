@@ -2,5 +2,5 @@
   "modsettings.screen.title": "Mod Settings",
   "modsettings.button.title": "Mod Settings...",
   "modsettings.key.open": "Open Mod Settings",
-  "modsettings.key.category": "Mod Settings"
+  "key.category.modsettings.main": "Mod Settings"
 }
