@@ -16,8 +16,8 @@ import se.icus.mag.modsettings.gui.MenuScreensChanger;
 @Mixin(value = Screen.class, priority = 1500)
 public abstract class ScreenMixin {
 
-    @Inject(method = "init(Lnet/minecraft/client/MinecraftClient;II)V", at = @At("TAIL"))
-    private void init(MinecraftClient client, int width, int height, CallbackInfo info) {
+    @Inject(method = "init(II)V", at = @At("TAIL"))
+    private void init(int width, int height, CallbackInfo info) {
         Screen screen = (Screen) (Object) this;
 
         if (screen instanceof TitleScreen titleScreen) {

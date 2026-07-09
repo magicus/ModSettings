@@ -82,7 +82,7 @@ public abstract class MenuScreensChanger {
 
     public static class ModSettingsButton extends Button {
         public ModSettingsButton(int x, int y, int width, int height, Screen screen) {
-            super(x, y, width, height, Text.translatable("modsettings.button.title"),
+            super(x, y, width, height, net.minecraft.text.Text.translatable("modsettings.button.title"),
                     button -> MinecraftClient.getInstance().setScreen(new ModSettingsScreen(screen)));
         }
     }
