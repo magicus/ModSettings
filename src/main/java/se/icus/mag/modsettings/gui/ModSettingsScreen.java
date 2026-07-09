@@ -1,7 +1,9 @@
 package se.icus.mag.modsettings.gui;
 
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.Positioner;
+import net.minecraft.client.gui.widget.TextWidget;
+import net.minecraft.client.gui.widget.ThreePartsLayoutWidget;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
 import se.icus.mag.modsettings.Main;
@@ -13,9 +15,11 @@ import java.util.List;
 public class ModSettingsScreen extends Screen {
 	private static final int FULL_BUTTON_WIDTH = 200;
 	private static final int BUTTON_HEIGHT = 20;
-	private static final int TITLE_COLOR = 0xffffff;
+	private static final int LIST_TOP_MARGIN = 32;
+	private static final int LIST_BOTTOM_MARGIN = 32;
 
 	private final Screen previous;
+	private ThreePartsLayoutWidget layout;
 	private ModListWidget list;
 	private boolean initIsProcessing;
 
@@ -31,16 +35,25 @@ public class ModSettingsScreen extends Screen {
 		if (initIsProcessing) return;
 		initIsProcessing = true;
 
-		// Put list between 32 pixels from top and bottom
-		this.list = new ModListWidget(this.client, this.width, this.height - 64,  32, 25);
-		this.list.addAll(getAllModConfigOptions());
+		this.layout = new ThreePartsLayoutWidget(this, LIST_TOP_MARGIN, LIST_BOTTOM_MARGIN);
+		this.layout.addHeader(new TextWidget(this.title, this.textRenderer), Positioner::alignHorizontalCenter);
 
-		this.addSelectableChild(this.list);
-		this.addDrawableChild(this.list);
-		this.addDrawableChild(new Button(this.width / 2 - FULL_BUTTON_WIDTH / 2, this.height - 27,
-				FULL_BUTTON_WIDTH, BUTTON_HEIGHT, ScreenTexts.DONE,
-				button -> this.client.setScreen(this.previous)));
+		this.list = new ModListWidget(this.client, this.width, this.height - LIST_TOP_MARGIN - LIST_BOTTOM_MARGIN, LIST_TOP_MARGIN, 25);
+		this.list.addAll(getAllModConfigOptions());
+		this.layout.addBody(this.list);
+
+		this.layout.addFooter(new Button(0, 0, FULL_BUTTON_WIDTH, BUTTON_HEIGHT, ScreenTexts.DONE,
+				button -> this.client.setScreen(this.previous)), Positioner::alignHorizontalCenter);
+		this.layout.forEachChild(child -> this.addDrawableChild(child));
+		this.refreshWidgetPositions();
 		initIsProcessing = false;
+	}
+
+	@Override
+	protected void refreshWidgetPositions() {
+		if (this.layout != null) {
+			this.layout.refreshPositions();
+		}
 	}
 
 	private ModSettingsOption[] getAllModConfigOptions() {
@@ -56,12 +69,6 @@ public class ModSettingsScreen extends Screen {
 			}
 		}
 		return options.toArray(new ModSettingsOption[0]);
-	}
-
-	@Override
-	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-		super.render(context, mouseX, mouseY, delta);
-		context.drawCenteredTextWithShadow(this.textRenderer, this.title, this.width / 2, 5, TITLE_COLOR);
 	}
 
 	@Override

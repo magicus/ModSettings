@@ -12,6 +12,8 @@ import net.minecraft.text.Text;
 import java.util.List;
 
 public class ModListWidget extends ElementListWidget<ModListWidget.Entry> {
+    private static final int BUTTON_WIDTH = 150;
+    private static final int BUTTON_GAP = 10;
     private static final int BUTTON_HEIGHT = 20;
 
     public ModListWidget(MinecraftClient client, int width, int height, int y, int itemHeight) {
@@ -21,7 +23,7 @@ public class ModListWidget extends ElementListWidget<ModListWidget.Entry> {
 
     @Override
     public int getRowWidth() {
-        return 400;
+        return BUTTON_WIDTH * 2 + BUTTON_GAP;
     }
 
     @Override
@@ -36,18 +38,24 @@ public class ModListWidget extends ElementListWidget<ModListWidget.Entry> {
     }
 
     public class ModEntry extends Entry {
-        final List<ButtonWidget> buttons;
+        private final ButtonWidget leftButton;
+        private final ButtonWidget rightButton;
+        private final List<ButtonWidget> buttons;
 
         public ModEntry(ModSettingsScreen.ModSettingsOption mod1, ModSettingsScreen.ModSettingsOption mod2) {
-            ButtonWidget leftButton = new Button(ModListWidget.this.width / 2 - 155, 0, 150, BUTTON_HEIGHT, Text.of(mod1.modName()),
-                    button -> client.setScreen(mod1.configScreen()));
-            if (mod2 != null) {
-                ButtonWidget rightButton = new Button(ModListWidget.this.width / 2 - 155 + 160, 0, 150, BUTTON_HEIGHT, Text.of(mod2.modName()),
-                        button -> client.setScreen(mod2.configScreen()));
-                buttons = ImmutableList.of(leftButton, rightButton);
+            this.leftButton = createButton(mod1);
+            if (mod2 == null) {
+                this.rightButton = null;
+                this.buttons = ImmutableList.of(this.leftButton);
             } else {
-                buttons = ImmutableList.of(leftButton);
+                this.rightButton = createButton(mod2);
+                this.buttons = ImmutableList.of(this.leftButton, this.rightButton);
             }
+        }
+
+        private ButtonWidget createButton(ModSettingsScreen.ModSettingsOption option) {
+            return new Button(0, 0, BUTTON_WIDTH, BUTTON_HEIGHT, Text.of(option.modName()),
+                    button -> ModListWidget.this.client.setScreen(option.configScreen()));
         }
 
         @Override
@@ -62,9 +70,14 @@ public class ModListWidget extends ElementListWidget<ModListWidget.Entry> {
 
         @Override
         public void render(DrawContext context, int mouseX, int mouseY, boolean hovered, float tickDelta) {
-            buttons.forEach(button -> {
-                button.render(context, mouseX, mouseY, tickDelta);
-            });
+            int buttonY = getY() + (getHeight() - BUTTON_HEIGHT) / 2;
+            this.leftButton.setPosition(getX(), buttonY);
+            this.leftButton.render(context, mouseX, mouseY, tickDelta);
+
+            if (this.rightButton != null) {
+                this.rightButton.setPosition(getX() + BUTTON_WIDTH + BUTTON_GAP, buttonY);
+                this.rightButton.render(context, mouseX, mouseY, tickDelta);
+            }
         }
     }
 
