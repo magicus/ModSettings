@@ -39,7 +39,7 @@ public class ModSettingsScreen extends OptionsSubScreen {
 		ModSettingsOption[] options = getAllModConfigOptions();
 		List<AbstractWidget> buttons = Arrays.stream(options)
 				.map(option -> new Button(0, 0, BUTTON_WIDTH, BUTTON_HEIGHT, Component.nullToEmpty(option.modName()),
-						button -> this.minecraft.setScreen(option.configScreen())))
+						button -> this.minecraft.gui.setScreen(option.configScreen())))
 				.collect(Collectors.toList());
 		this.list.addSmall(buttons);
 	}

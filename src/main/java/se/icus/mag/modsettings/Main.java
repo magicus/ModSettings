@@ -23,7 +23,7 @@ public class Main implements ClientModInitializer {
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             while (modSettingsKey.consumeClick()) {
-                client.getInstance().setScreen(new ModSettingsScreen(null));
+                client.getInstance().gui.setScreen(new ModSettingsScreen(null));
             }
         });
     }
