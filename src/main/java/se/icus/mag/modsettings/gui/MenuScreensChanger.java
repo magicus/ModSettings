@@ -15,12 +15,12 @@ public abstract class MenuScreensChanger {
     private static final int BUTTON_VERICAL_SPACING = 24;
 
     public static void postTitleScreenInit(Screen screen) {
-        List<AbstractWidget> buttons = Screens.getButtons(screen);
+        List<AbstractWidget> buttons = Screens.getWidgets(screen);
         injectModSettingsButton(screen, buttons, TITLE_FULL_BUTTON_WIDTH, 2, BUTTON_VERICAL_SPACING / 2);
     }
 
     public static void postGameMenuScreenInit(Screen screen) {
-        List<AbstractWidget> buttons = Screens.getButtons(screen);
+        List<AbstractWidget> buttons = Screens.getWidgets(screen);
         // If this is the Pause game menu (F3 + Esc), do not inject anything
         if (buttons.size() == 1 && buttonHasText(buttons.get(0), "menu.paused")) return;
 
