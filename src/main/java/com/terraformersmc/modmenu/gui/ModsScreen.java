@@ -1,7 +1,7 @@
 package com.terraformersmc.modmenu.gui;
 
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.text.Text;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
 
 /**
  * Ideally, this class should not really have been needed, but some mods (e.g. older versions of
@@ -10,6 +10,6 @@ import net.minecraft.text.Text;
  */
 public class ModsScreen extends Screen {
   protected ModsScreen(Screen previousScreen) {
-    super(Text.translatable("modmenu.title"));
+    super(Component.translatable("modmenu.title"));
   }
 }

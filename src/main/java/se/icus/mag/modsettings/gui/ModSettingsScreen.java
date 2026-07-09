@@ -4,21 +4,21 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.option.GameOptionsScreen;
-import net.minecraft.client.gui.widget.ClickableWidget;
-import net.minecraft.text.Text;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.options.OptionsSubScreen;
+import net.minecraft.network.chat.Component;
 import se.icus.mag.modsettings.Main;
 import se.icus.mag.modsettings.ModRegistry;
 
-public class ModSettingsScreen extends GameOptionsScreen {
+public class ModSettingsScreen extends OptionsSubScreen {
 	private static final int BUTTON_WIDTH = 150;
 	private static final int BUTTON_HEIGHT = 20;
 	private boolean initIsProcessing;
 
 	public ModSettingsScreen(Screen previous) {
-		super(previous, MinecraftClient.getInstance().options, Text.translatable("modsettings.screen.title"));
+		super(previous, Minecraft.getInstance().options, Component.translatable("modsettings.screen.title"));
 	}
 
 	@Override
@@ -37,11 +37,11 @@ public class ModSettingsScreen extends GameOptionsScreen {
 	@Override
 	protected void addOptions() {
 		ModSettingsOption[] options = getAllModConfigOptions();
-		List<ClickableWidget> buttons = Arrays.stream(options)
-				.map(option -> new Button(0, 0, BUTTON_WIDTH, BUTTON_HEIGHT, Text.of(option.modName()),
-						button -> this.client.setScreen(option.configScreen())))
+		List<AbstractWidget> buttons = Arrays.stream(options)
+				.map(option -> new Button(0, 0, BUTTON_WIDTH, BUTTON_HEIGHT, Component.nullToEmpty(option.modName()),
+						button -> this.minecraft.setScreen(option.configScreen())))
 				.collect(Collectors.toList());
-		this.body.addAll(buttons);
+		this.list.addSmall(buttons);
 	}
 
 	private ModSettingsOption[] getAllModConfigOptions() {

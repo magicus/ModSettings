@@ -1,9 +1,8 @@
 package se.icus.mag.modsettings.mixin;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.GameMenuScreen;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.TitleScreen;
+import net.minecraft.client.gui.screens.PauseScreen;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.TitleScreen;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -22,7 +21,7 @@ public abstract class ScreenMixin {
 
         if (screen instanceof TitleScreen titleScreen) {
             MenuScreensChanger.postTitleScreenInit(titleScreen);
-        } else if (screen instanceof GameMenuScreen gameMenuScreen) {
+        } else if (screen instanceof PauseScreen gameMenuScreen) {
             MenuScreensChanger.postGameMenuScreenInit(gameMenuScreen);
         }
     }

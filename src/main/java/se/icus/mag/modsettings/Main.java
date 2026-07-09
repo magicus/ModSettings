@@ -1,11 +1,11 @@
 package se.icus.mag.modsettings;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.util.InputUtil;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.resources.Identifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.glfw.GLFW;
@@ -18,11 +18,11 @@ public class Main implements ClientModInitializer {
     public void onInitializeClient() {
         ModRegistry.getInstance().registerMods();
 
-        KeyBinding.Category category = KeyBinding.Category.create(Identifier.of("modsettings", "main"));
-        KeyBinding modSettingsKey = KeyBindingHelper.registerKeyBinding(new KeyBinding("modsettings.key.open", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_F6, category));
+        KeyMapping.Category category = KeyMapping.Category.register(Identifier.fromNamespaceAndPath("modsettings", "main"));
+        KeyMapping modSettingsKey = KeyBindingHelper.registerKeyBinding(new KeyMapping("modsettings.key.open", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_F6, category));
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            while (modSettingsKey.wasPressed()) {
+            while (modSettingsKey.consumeClick()) {
                 client.getInstance().setScreen(new ModSettingsScreen(null));
             }
         });
