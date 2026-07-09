@@ -73,3 +73,19 @@ The mod [Content Creator Integration](
 https://www.curseforge.com/minecraft/mc-mods/content-creator-integration)
 versions 1.9.3 and older contains an incompatible implementation of the Mod Menu
 API. This is fixed in newer versions of CCI.
+
+## Other Mods
+
+Check out my other mods, which also supplies vanilla-style usability enhancements:
+
+### Status Effect Timer
+
+![Logo](https://raw.githubusercontent.com/magicus/statuseffecttimer/master/docs/logo.png)
+
+[Status Effect Timer](https://github.com/magicus/statuseffecttimer) is a Minecraft mod for Fabric that overlays a timer on the Vanilla status effect HUD icons.
+
+### Elytra Indicators
+
+![Logo](https://raw.githubusercontent.com/magicus/ElytraIndicators/master/docs/logo.png)
+
+[Elytra Indicators](https://github.com/magicus/ElytraIndicators) is a Minecraft mod for Fabric that provides Vanilla-style "fly by instrument" support for elytra flight.
